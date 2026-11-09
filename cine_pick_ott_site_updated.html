@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CINE PICK — 영화 탐색</title>
+<style>
+:root{--bg:#0b0d12;--panel:#151923;--panel2:#1c2230;--text:#f4f5f8;--muted:#9ba3b4;--accent:#e7b75a;--line:#2a3140;--green:#8bd5a8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Pretendard,"Noto Sans KR",Arial,sans-serif}
+header{padding:28px clamp(18px,5vw,72px) 22px;border-bottom:1px solid var(--line);background:linear-gradient(120deg,#151b29,#0b0d12)}
+.brand{font-size:13px;letter-spacing:.28em;color:var(--accent);font-weight:800}.hero{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-top:22px}.hero h1{font-size:clamp(30px,5vw,54px);margin:0 0 8px;letter-spacing:-.04em}.hero p{color:var(--muted);margin:0}.wrap{max-width:1400px;margin:auto;padding:26px clamp(16px,4vw,56px) 70px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.toolbar input,.toolbar select,.comment-form textarea{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:12px 14px;font:inherit}.toolbar input{flex:1;min-width:200px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 24px}.tab,.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:999px;cursor:pointer;font:inherit}.tab.active{background:var(--accent);border-color:var(--accent);color:#17130c;font-weight:800}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:24px 0 14px}.section-head h2{font-size:21px;margin:0}.hint{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}.movie{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0;transition:.2s}.movie:hover{transform:translateY(-3px);border-color:#596174}.poster{height:285px;position:relative;display:flex;align-items:end;padding:18px;overflow:hidden;background:linear-gradient(145deg,var(--c1),var(--c2))}.poster:before,.poster:after{content:"";position:absolute;border-radius:50%;filter:blur(1px);opacity:.34}.poster:before{width:240px;height:240px;background:radial-gradient(circle,#fff,transparent 68%);top:-80px;right:-65px}.poster:after{width:190px;height:190px;border:1px solid #fff;bottom:-95px;left:-40px;box-shadow:0 0 0 18px #ffffff12,0 0 0 38px #ffffff0b}.poster .poster-title{position:relative;z-index:1;font-weight:900;font-size:27px;line-height:1.08;text-shadow:0 2px 12px #0008;max-width:90%}.poster .poster-year{position:absolute;right:14px;top:14px;font-size:12px;background:#0006;padding:5px 8px;border-radius:20px}.rank{position:absolute;left:12px;top:12px;z-index:2;background:#090b10cc;border:1px solid #ffffff44;border-radius:9px;padding:6px 9px;font-weight:900;color:var(--accent)}
+.movie-body{padding:14px}.movie h3{font-size:17px;margin:0 0 7px}.meta{font-size:12px;color:var(--muted);margin-bottom:11px}.ratings{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.rating{background:var(--panel2);padding:7px 9px;border-radius:8px;font-size:12px}.rating b{color:var(--accent);font-size:14px}.review{font-size:13px;line-height:1.55;color:#d7dbe4;border-left:2px solid var(--accent);padding-left:10px;margin:12px 0}.providers{font-size:12px;line-height:1.6;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}.tag{display:inline-block;border:1px solid #3a4558;border-radius:20px;padding:3px 7px;margin:3px 3px 0 0;color:#d6dbea}.status{color:var(--green)}.movie-actions{display:flex;gap:8px;margin-top:12px}.movie-actions button{flex:1}
+button:hover{filter:brightness(1.12)}.btn.primary{background:var(--accent);color:#17130c;border-color:var(--accent);font-weight:800}.empty{padding:40px;text-align:center;color:var(--muted);grid-column:1/-1;background:var(--panel);border-radius:14px}
+#commentsPanel{margin-top:44px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}.comment-form{display:grid;gap:10px;margin:14px 0 20px}.comment-form textarea{min-height:90px;resize:vertical}.comment-list{display:grid;gap:10px}.comment{padding:13px;background:var(--panel2);border-radius:11px;border:1px solid transparent}.comment.mine{border-color:#9c7c3c}.comment-top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;color:var(--muted)}.comment p{margin:9px 0 0;white-space:pre-wrap;line-height:1.55}.comment-buttons{display:flex;gap:6px}.comment-buttons button{font-size:11px;padding:5px 8px;border-radius:7px;border:1px solid var(--line);background:#252d3b;color:var(--text);cursor:pointer}
+footer{color:var(--muted);font-size:12px;line-height:1.7;margin-top:30px;border-top:1px solid var(--line);padding-top:18px}.notice{background:#302817;border:1px solid #6b552a;color:#e8d5a8;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.6;margin:18px 0}
+@media(max-width:600px){.poster{height:245px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.movie h3{font-size:15px}.movie-body{padding:11px}.ratings{gap:5px}.rating{font-size:11px;padding:6px}.hero h1{font-size:34px}}
+</style>
+</head>
+<body>
+<header><div class="brand">CINE PICK</div><div class="hero"><div><h1>오늘의 영화를 발견하다.</h1><p>유명한 영화부터 지금 다시 볼 만한 작품까지.</p></div><div class="hint">MOVIE DISCOVERY · KOREA</div></div></header>
+<main class="wrap">
+  <div class="notice">현재 파일은 브라우저에서 실행되는 프런트엔드 데모입니다. 평점·OTT 제공 여부는 API 연결 전까지 실제 실시간 정보가 아니며, 조회수와 댓글은 이 브라우저에만 저장됩니다.</div>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="영화 제목 또는 장르 검색">
+    <select id="ott"><option value="all">OTT 전체</option><option>넷플릭스</option><option>디즈니+</option><option>티빙</option><option>웨이브</option><option>쿠팡플레이</option><option>왓챠</option><option>애플 TV+</option></select>
+    <select id="sort"><option value="default">기본 순서</option><option value="imdb">IMDb 평점순(연동 전)</option><option value="tmdb">TMDB 평점순(연동 전)</option><option value="views">누적 조회수순</option></select>
+  </div>
+  <nav class="tabs" aria-label="인기 영화 정렬">
+    <button class="tab active" data-mode="all">전체 영화</button>
+    <button class="tab" data-mode="week">주간 인기 TOP 10</button>
+    <button class="tab" data-mode="month">월간 인기 TOP 10</button>
+    <button class="tab" data-mode="total">누적 조회수 TOP 10</button>
+  </nav>
+  <div class="section-head"><h2 id="listTitle">추천 영화</h2><span class="hint" id="listHint">영화 카드를 열면 이 브라우저의 조회수가 기록됩니다.</span></div>
+  <section class="grid" id="movies"></section>
+  <section id="commentsPanel">
+    <div class="section-head"><h2 id="commentTitle">영화별 익명 댓글</h2><span class="hint">닉네임 없이 작성</span></div>
+    <p class="hint">영화 카드에서 ‘댓글 보기’를 누르면 해당 영화의 댓글이 표시됩니다.</p>
+    <form class="comment-form" id="commentForm">
+      <textarea id="commentInput" maxlength="500" placeholder="이 영화에 대한 감상을 남겨주세요. (최대 500자)" required></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="hint">작성자: 익명 · 본인 브라우저에서만 수정/삭제 가능</span><button class="btn primary" type="submit">댓글 작성</button></div>
+    </form>
+    <div class="comment-list" id="commentList"><div class="empty">먼저 영화 카드에서 댓글 보기를 선택하세요.</div></div>
+  </section>
+  <footer>
+    <b>데이터 연동 안내</b><br>
+    • IMDb 평점: OMDb API 등 허용된 데이터 소스의 인증 키와 서버 연동이 필요합니다.<br>
+    • TMDB 평점·한국 OTT 제공 정보: TMDB API의 영화 평점 및 KR Watch Providers 데이터를 연결해야 합니다. 구독/대여/구매 제공 유형을 구분해 표시할 수 있습니다.<br>
+    • 공식 영화 포스터는 일반적으로 저작권 보호 대상입니다. 이 데모는 실제 포스터를 복제하지 않고 자체 제작한 그래픽 커버를 사용합니다.<br>
+    • 주간/월간/누적 인기 순위는 데모에서는 이 브라우저의 조회 기록을 집계합니다. 전체 이용자 통합 순위에는 서버·DB(Supabase 등), 중복 조회 방지 및 서버 측 권한 검증이 필요합니다.
+  </footer>
+</main>
+<script>
+const films=[
+{id:278,title:"쇼생크 탈출",year:1994,genre:"드라마",colors:["#31495b","#a17b53"],imdb:null,tmdb:null,review:"희망은 가장 어두운 곳에서도 사라지지 않는다는 이야기.",ott:[]},
+{id:238,title:"대부",year:1972,genre:"범죄 · 드라마",colors:["#201b22","#79443b"],imdb:null,tmdb:null,review:"가족과 권력의 이름으로 펼쳐지는 장대한 비극.",ott:[]},
+{id:155,title:"다크 나이트",year:2008,genre:"액션 · 범죄",colors:["#17202b","#59616b"],imdb:null,tmdb:null,review:"영웅과 악당의 경계를 집요하게 묻는 슈퍼히어로 영화.",ott:[]},
+{id:157336,title:"인터스텔라",year:2014,genre:"SF · 드라마",colors:["#152a39","#9a7156"],imdb:null,tmdb:null,review:"우주적 스케일 속에 담아낸 사랑과 선택의 이야기.",ott:[]},
+{id:496243,title:"기생충",year:2019,genre:"드라마 · 스릴러",colors:["#293b32","#a0a17a"],imdb:null,tmdb:null,review:"웃음과 긴장 사이에서 계급의 민낯을 드러내는 작품.",ott:[]},
+{id:13,title:"포레스트 검프",year:1994,genre:"드라마 · 로맨스",colors:["#4d6b68","#c79c62"],imdb:null,tmdb:null,review:"한 사람의 순수한 걸음으로 돌아보는 시대의 풍경.",ott:[]},
+{id:680,title:"펄프 픽션",year:1994,genre:"범죄",colors:["#572e29","#c28a55"],imdb:null,tmdb:null,review:"엇갈리는 시간과 대사로 완성한 독창적인 범죄극.",ott:[]},
+{id:129,title:"센과 치히로의 행방불명",year:2001,genre:"애니메이션 · 판타지",colors:["#345b59","#d39a5c"],imdb:null,tmdb:null,review:"낯선 세계를 통과하며 성장하는 용기와 상상력.",ott:[]},
+{id:27205,title:"인셉션",year:2010,genre:"SF · 액션",colors:["#293b50","#9b745e"],imdb:null,tmdb:null,review:"꿈과 현실의 층위를 쌓아 올리는 정교한 퍼즐.",ott:[]},
+{id:597,title:"타이타닉",year:1997,genre:"로맨스 · 드라마",colors:["#1d3c50","#b38c69"],imdb:null,tmdb:null,review:"거대한 재난 속에서 빛나는 사랑과 기억.",ott:[]},
+{id:244786,title:"위플래쉬",year:2014,genre:"드라마 · 음악",colors:["#332b2b","#a45c37"],imdb:null,tmdb:null,review:"완벽을 향한 집착이 어디까지 사람을 몰아붙이는가.",ott:[]},
+{id:603,title:"매트릭스",year:1999,genre:"SF · 액션",colors:["#102f2a","#5b8a68"],imdb:null,tmdb:null,review:"현실이라고 믿는 세계를 의심하게 만드는 SF 액션.",ott:[]}
+];
+const $=s=>document.querySelector(s);
+const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let mode="all", selectedMovie=null, editingId=null;
+const owner=(()=>{let x=localStorage.getItem("cine_owner");if(!x){x=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random());localStorage.setItem("cine_owner",x)}return x})();
+function getViews(){return read("cine_views",[])}
+function recordView(id){let a=getViews(),now=Date.now();a.push({id,at:now});write("cine_views",a)}
+function countViews(id,period){let a=getViews().filter(v=>v.id===id);let now=Date.now();if(period==="week")a=a.filter(v=>now-v.at<=7*864e5);if(period==="month"){let d=new Date();a=a.filter(v=>{let x=new Date(v.at);return x.getFullYear()===d.getFullYear()&&x.getMonth()===d.getMonth()})}return a.length}
+function render(){
+ let q=$("#search").value.trim().toLowerCase(),ott=$("#ott").value,sort=$("#sort").value;
+ let list=films.filter(f=>(f.title+" "+f.genre).toLowerCase().includes(q));
+ if(ott!=="all")list=list.filter(f=>f.ott.includes(ott));
+ if(mode==="week")list.sort((a,b)=>countViews(b.id,"week")-countViews(a.id,"week"));
+ if(mode==="month")list.sort((a,b)=>countViews(b.id,"month")-countViews(a.id,"month"));
+ if(mode==="total"||sort==="views")list.sort((a,b)=>countViews(b.id,"all")-countViews(a.id,"all"));
+ if(sort==="imdb"||sort==="tmdb")list.sort((a,b)=>(b[sort]??-1)-(a[sort]??-1));
+ if(mode!=="all")list=list.slice(0,10);
+ $("#listTitle").textContent=({all:"추천 영화",week:"최근 7일 인기 TOP 10",month:"이번 달 인기 TOP 10",total:"누적 조회수 TOP 10"})[mode];
+ $("#listHint").textContent=mode==="all"?"포스터를 누르면 조회수가 기록됩니다.":"현재 브라우저에 저장된 조회 기록 기준";
+ $("#movies").innerHTML=list.length?list.map((f,i)=>`<article class="movie">
+ <div class="poster" style="--c1:${f.colors[0]};--c2:${f.colors[1]}"><span class="poster-year">${f.year}</span>${mode!=="all"?`<span class="rank">#${i+1}</span>`:""}<div class="poster-title">${f.title}</div></div>
+ <div class="movie-body"><h3>${f.title}</h3><div class="meta">${f.year} · ${f.genre}</div>
+ <div class="ratings"><span class="rating">IMDb <b>${f.imdb??"평점 없음"}</b></span><span class="rating">TMDB <b>${f.tmdb??"평점 없음"}</b></span></div>
+ <div class="review">${f.review}</div>
+ <div class="providers">한국 OTT: <span class="tag">정보 연동 전</span><br>한국 제공 여부: <span class="status">확인 필요</span><br><span class="hint">누적 조회 ${countViews(f.id,"all")}회 · 데모</span></div>
+ <div class="movie-actions"><button class="btn" onclick="openMovie(${f.id})">댓글 보기</button><button class="btn" onclick="viewMovie(${f.id})">조회 기록</button></div></div></article>`).join(""):'<div class="empty">검색 결과가 없습니다.</div>';
+}
+function viewMovie(id){recordView(id);render()}
+function openMovie(id){recordView(id);selectedMovie=id;editingId=null;$("#commentTitle").textContent=films.find(f=>f.id===id).title+" · 익명 댓글";$("#commentInput").value="";renderComments();render();$("#commentsPanel").scrollIntoView({behavior:"smooth",block:"start"})}
+function comments(){return read("cine_comments",[])}
+function renderComments(){
+ if(selectedMovie===null)return;
+ let a=comments().filter(c=>c.movieId===selectedMovie);
+ a.sort((x,y)=>{if(x.owner===owner&&y.owner!==owner)return -1;if(y.owner===owner&&x.owner!==owner)return 1;return y.created-x.created});
+ $("#commentList").innerHTML=a.length?a.map(c=>`<div class="comment ${c.owner===owner?"mine":""}"><div class="comment-top"><span>익명 · ${new Date(c.created).toLocaleString("ko-KR")} ${c.owner===owner?'<b style="color:var(--accent)">내 댓글</b>':""}</span>${c.owner===owner?`<span class="comment-buttons"><button onclick="editComment('${c.id}')">수정</button><button onclick="deleteComment('${c.id}')">삭제</button></span>`:""}</div><p>${escapeHtml(c.text)}</p></div>`).join(""):'<div class="empty">아직 댓글이 없습니다. 첫 감상을 남겨보세요.</div>';
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+$("#commentForm").addEventListener("submit",e=>{e.preventDefault();if(selectedMovie===null){alert("먼저 영화 카드에서 댓글 보기를 선택하세요.");return}let value=$("#commentInput").value.trim();if(!value)return;let a=comments();if(editingId){let c=a.find(x=>x.id===editingId&&x.owner===owner);if(!c){alert("수정 권한이 없습니다.");return}c.text=value;c.updated=Date.now();editingId=null}else{a.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),movieId:selectedMovie,text:value,owner,created:Date.now()})}write("cine_comments",a);$("#commentInput").value="";$("#commentForm button").textContent="댓글 작성";renderComments()});
+function editComment(id){let c=comments().find(x=>x.id===id&&x.owner===owner);if(!c)return;editingId=id;$("#commentInput").value=c.text;$("#commentInput").focus();$("#commentForm button").textContent="수정 저장"}
+function deleteComment(id){let a=comments(),c=a.find(x=>x.id===id&&x.owner===owner);if(!c)return;if(!confirm("이 댓글을 삭제할까요?"))return;write("cine_comments",a.filter(x=>x.id!==id));renderComments()}
+$("#search").addEventListener("input",render);$("#ott").addEventListener("change",render);$("#sort").addEventListener("change",render);
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{mode=b.dataset.mode;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));render()}));
+render();
+</script>
+</body></html>
