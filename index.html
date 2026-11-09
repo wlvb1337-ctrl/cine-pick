@@ -1,21 +1,508 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CINE PICK</title>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINE PICK</title>
+
 <style>
-:root{--bg:#090b10;--p:#141821;--p2:#1c2230;--t:#f4f5f8;--m:#98a1b3;--g:#e7b75a;--l:#2a3140}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:Inter,Pretendard,"Noto Sans KR",sans-serif}header{padding:30px 5vw 25px;border-bottom:1px solid var(--l);background:linear-gradient(135deg,#171d2a,#090b10)}.brand{color:var(--g);font-weight:900;letter-spacing:.3em;font-size:13px}.hero{margin-top:20px}.hero h1{font-size:clamp(32px,5vw,56px);margin:0}.hero p{color:var(--m)}main{max-width:1400px;margin:auto;padding:24px 4vw 60px}.notice{background:#2b2417;border:1px solid #5d4b28;color:#e7d6ac;padding:12px;border-radius:10px;font-size:12px;line-height:1.6;margin-bottom:18px}.toolbar{display:flex;gap:9px;flex-wrap:wrap}.toolbar input,.toolbar select{background:var(--p);border:1px solid var(--l);color:var(--t);padding:12px;border-radius:10px}.toolbar input{flex:1;min-width:220px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{background:var(--p);border:1px solid var(--l);color:var(--t);padding:10px 14px;border-radius:999px;cursor:pointer}.tab.active{background:var(--g);color:#15120b;font-weight:800}.head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 14px}.muted{color:var(--m);font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}.card{background:var(--p);border:1px solid var(--l);border-radius:16px;overflow:hidden}.poster{height:305px;background:linear-gradient(145deg,#33495d,#8e6a4e);position:relative}.poster img{width:100%;height:100%;object-fit:cover}.fallback{height:100%;display:flex;align-items:end;padding:18px;font-size:26px;font-weight:900}.year,.rank{position:absolute;top:12px;background:#0009;border-radius:20px;padding:5px 8px;font-size:12px}.year{right:12px}.rank{left:12px;color:var(--g);font-weight:900}.body{padding:14px}.body h3{margin:0 0 6px}.meta{font-size:12px;color:var(--m)}.ratings{display:flex;gap:7px;margin:11px 0}.rating{background:var(--p2);padding:7px 9px;border-radius:8px;font-size:12px}.rating b{color:var(--g);font-size:14px}.review{border-left:2px solid var(--g);padding-left:10px;font-size:13px;line-height:1.5;margin:12px 0}.providers{border-top:1px solid var(--l);padding-top:10px;font-size:12px;line-height:1.8;color:var(--m)}.tag{border:1px solid #3b4658;border-radius:999px;padding:2px 7px;margin:2px;display:inline-block}.btn{width:100%;background:var(--g);border:0;padding:10px;border-radius:9px;cursor:pointer;font-weight:800}.empty{grid-column:1/-1;text-align:center;padding:40px;color:var(--m);background:var(--p);border-radius:14px}footer{margin-top:30px;border-top:1px solid var(--l);padding-top:18px;color:var(--m);font-size:12px;line-height:1.7}@media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.poster{height:240px}.body{padding:10px}}
-</style></head><body>
-<header><div class="brand">CINE PICK</div><div class="hero"><h1>오늘의 영화를 발견하다.</h1><p>TMDB · IMDb · 한국 OTT 정보를 한곳에서.</p></div></header>
-<main><div class="notice">1차 API 연동 구조입니다. TMDB/OMDb 비밀키는 이 HTML에 넣지 않고 Supabase Edge Function에서 사용합니다.</div>
-<div class="toolbar"><input id="search" placeholder="영화 제목 검색"><select id="sort"><option value="popular">인기순</option><option value="rating">TMDB 평점순</option><option value="year">최신 개봉순</option></select></div>
-<nav class="tabs"><button class="tab active" data-mode="discover">추천 영화</button><button class="tab" data-mode="week">주간 인기</button><button class="tab" data-mode="month">월간 인기</button><button class="tab" data-mode="total">누적 인기</button></nav>
-<div class="head"><h2 id="title">추천 영화</h2><span class="muted" id="status">연결 준비 중</span></div><section id="grid" class="grid"></section>
-<footer>다음 단계: Supabase 프로젝트 생성 → Edge Function 배포 → Secrets 등록 → 댓글/조회수 DB 연결.</footer></main>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0b0c10;
+  color: #fff;
+  font-family: Arial, "Noto Sans KR", sans-serif;
+}
+
+header {
+  padding: 28px 5%;
+  border-bottom: 1px solid #252730;
+  background: #0b0c10;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.subtitle {
+  color: #999;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+input,
+select,
+button {
+  border: 1px solid #30333b;
+  background: #15171d;
+  color: white;
+  border-radius: 9px;
+  padding: 12px;
+}
+
+input {
+  flex: 1;
+  min-width: 200px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background: #252832;
+}
+
+main {
+  width: 90%;
+  max-width: 1400px;
+  margin: 30px auto;
+}
+
+.status {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.error {
+  background: #351719;
+  border: 1px solid #74343a;
+  color: #ffb5b5;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: #121419;
+  border: 1px solid #252830;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.poster {
+  aspect-ratio: 2 / 3;
+  background: linear-gradient(135deg, #252936, #111318);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 12px;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  padding: 13px;
+}
+
+.title {
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.meta {
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.ratings {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.rating {
+  border: 1px solid #353842;
+  border-radius: 20px;
+  padding: 5px 8px;
+  font-size: 11px;
+}
+
+.ott {
+  color: #aaa;
+  font-size: 11px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+@media(max-width:600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  main {
+    width: 94%;
+  }
+
+  .controls {
+    flex-wrap: wrap;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">CINE PICK</div>
+  <div class="subtitle">한국 OTT 영화 탐색</div>
+
+  <div class="controls">
+    <input
+      id="search"
+      type="text"
+      placeholder="영화 제목을 검색하세요"
+    >
+
+    <select id="mode">
+      <option value="discover">추천</option>
+      <option value="popular">인기</option>
+      <option value="top">TMDB 평점</option>
+      <option value="new">최신</option>
+    </select>
+
+    <button onclick="loadMovies()">검색</button>
+  </div>
+</header>
+
+<main>
+
+  <div id="status" class="status">
+    영화 정보를 불러오는 중...
+  </div>
+
+  <div id="error" class="error"></div>
+
+  <div id="grid" class="grid"></div>
+
+</main>
+
 <script>
-const SUPABASE_URL="https://nxrohsvtcckarurkpull.supabase.co",SUPABASE_ANON_KEY="sb_publishable_TjNFFVWTyk1ERcjhdCKLAw_v21E0WTF";
-const state={mode:"discover",movies:[]},$=s=>document.querySelector(s);
-async function load(){if(SUPABASE_URL.startsWith("YOUR_")){demo();return}$("#status").textContent="불러오는 중…";try{let u=new URL(SUPABASE_URL+"/functions/v1/movie-data");u.searchParams.set("mode",state.mode);let q=$("#search").value.trim();if(q)u.searchParams.set("query",q);let r=await fetch(u,{headers:{apikey:SUPABASE_ANON_KEY}});if(!r.ok)throw Error(r.status);state.movies=await r.json();$("#status").textContent=state.movies.length+"편";render()}catch(e){$("#status").textContent="API 연결 실패";demo()}}
-function demo(){state.movies=[{id:278,title:"쇼생크 탈출",year:1994,genre:"드라마",tmdb:null,imdb:null,poster:null,review:"희망은 가장 어두운 곳에서도 사라지지 않는다는 이야기.",providers:[]},{id:238,title:"대부",year:1972,genre:"범죄 · 드라마",tmdb:null,imdb:null,poster:null,review:"가족과 권력의 이름으로 펼쳐지는 장대한 비극.",providers:[]},{id:155,title:"다크 나이트",year:2008,genre:"액션 · 범죄",tmdb:null,imdb:null,poster:null,review:"영웅과 악당의 경계를 집요하게 묻는 슈퍼히어로 영화.",providers:[]},{id:157336,title:"인터스텔라",year:2014,genre:"SF · 드라마",tmdb:null,imdb:null,poster:null,review:"우주적 스케일 속에 담아낸 사랑과 선택의 이야기.",providers:[]}];render()}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function render(){let q=$("#search").value.trim().toLowerCase(),a=state.movies.filter(x=>x.title.toLowerCase().includes(q)),s=$("#sort").value;if(s==="rating")a.sort((x,y)=>(y.tmdb??-1)-(x.tmdb??-1));if(s==="year")a.sort((x,y)=>(y.year??0)-(x.year??0));$("#grid").innerHTML=a.length?a.map((m,i)=>`<article class="card"><div class="poster">${m.poster?`<img src="${esc(m.poster)}" alt="${esc(m.title)} 포스터">`:`<div class="fallback">${esc(m.title)}</div>`}<span class="year">${m.year??""}</span>${state.mode!=="discover"?`<span class="rank">#${i+1}</span>`:""}</div><div class="body"><h3>${esc(m.title)}</h3><div class="meta">${m.year??""} · ${esc(m.genre||"")}</div><div class="ratings"><span class="rating">IMDb <b>${m.imdb??"—"}</b></span><span class="rating">TMDB <b>${m.tmdb??"—"}</b></span></div><div class="review">${esc(m.review)}</div><div class="providers">${m.providers?.length?m.providers.map(x=>`<span class="tag">${esc(x.name)} · ${esc(x.type||"")}</span>`).join(""):"<span class='tag'>OTT 정보 없음</span>"}</div><button class="btn" onclick="recordView(${m.id})">영화 보기</button></div></article>`).join(""):'<div class="empty">검색 결과가 없습니다.</div>'}
-async function recordView(id){if(SUPABASE_URL.startsWith("YOUR_"))return;try{await fetch(SUPABASE_URL+"/functions/v1/movie-view",{method:"POST",headers:{"Content-Type":"application/json",apikey:SUPABASE_ANON_KEY},body:JSON.stringify({movie_id:id})})}catch(e){}}
-$("#search").addEventListener("input",load);$("#sort").addEventListener("change",render);
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{state.mode=b.dataset.mode;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));$("#title").textContent={discover:"추천 영화",week:"주간 인기",month:"월간 인기",total:"누적 인기"}[state.mode];load()}));load();
-</script></body></html>
+
+/* ==============================
+   SUPABASE 설정
+============================== */
+
+const SUPABASE_URL =
+  "https://nxrohsvtcckarurkpull.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_TjNFFVWTyk1ERcjhdCKLAw_v21E0WTF";
+
+/*
+  현재 Supabase에서 만든 Edge Function 이름
+*/
+const FUNCTION_NAME = "hyper-processor";
+
+
+/* ==============================
+   HTML 요소
+============================== */
+
+const searchInput = document.getElementById("search");
+const modeSelect = document.getElementById("mode");
+const grid = document.getElementById("grid");
+const statusBox = document.getElementById("status");
+const errorBox = document.getElementById("error");
+
+
+/* ==============================
+   영화 불러오기
+============================== */
+
+async function loadMovies() {
+
+  errorBox.style.display = "none";
+  errorBox.textContent = "";
+
+  statusBox.textContent = "영화 정보를 불러오는 중...";
+
+  grid.innerHTML = "";
+
+  try {
+
+    if (
+      SUPABASE_PUBLISHABLE_KEY.includes("여기에_본인의")
+    ) {
+      throw new Error(
+        "Supabase Publishable key가 입력되지 않았습니다."
+      );
+    }
+
+    const url =
+      `${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`;
+
+    const requestUrl = new URL(url);
+
+    requestUrl.searchParams.set(
+      "mode",
+      modeSelect.value
+    );
+
+    const query = searchInput.value.trim();
+
+    if (query) {
+      requestUrl.searchParams.set("query", query);
+    }
+
+    const response = await fetch(
+      requestUrl.toString(),
+      {
+        method: "GET",
+
+        headers: {
+          "apikey": SUPABASE_PUBLISHABLE_KEY,
+          "Authorization":
+            `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const text = await response.text();
+
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error(
+        `Supabase 응답 오류 (${response.status})`
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        `API 오류 (${response.status})`
+      );
+    }
+
+    if (data.success === false) {
+      throw new Error(
+        data.error ||
+        "영화 데이터를 가져오지 못했습니다."
+      );
+    }
+
+    const movies = data.results || [];
+
+    renderMovies(movies);
+
+    statusBox.textContent =
+      `${movies.length}편의 영화를 불러왔습니다.`;
+
+  } catch (error) {
+
+    console.error(error);
+
+    statusBox.textContent = "API 연결 실패";
+
+    errorBox.style.display = "block";
+
+    errorBox.textContent =
+      `API 연결 실패: ${error.message}`;
+  }
+}
+
+
+/* ==============================
+   영화 카드
+============================== */
+
+function renderMovies(movies) {
+
+  if (!movies.length) {
+
+    grid.innerHTML = `
+      <div style="
+        color:#999;
+        padding:40px 0;
+      ">
+        검색 결과가 없습니다.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML = movies.map(movie => {
+
+    const poster = movie.poster
+      ? `<img
+           src="${escapeHTML(movie.poster)}"
+           alt="${escapeHTML(movie.title || "")}"
+           loading="lazy"
+         >`
+      : "POSTER";
+
+    const subscription =
+      movie.providers?.subscription || [];
+
+    const rent =
+      movie.providers?.rent || [];
+
+    const buy =
+      movie.providers?.buy || [];
+
+    const ottNames = [
+      ...subscription,
+      ...rent,
+      ...buy
+    ]
+      .map(item => item.name)
+      .filter(Boolean);
+
+    const uniqueOTT = [
+      ...new Set(ottNames)
+    ];
+
+    return `
+      <article class="card">
+
+        <div class="poster">
+          ${poster}
+        </div>
+
+        <div class="info">
+
+          <div class="title">
+            ${escapeHTML(
+              movie.title || "제목 없음"
+            )}
+          </div>
+
+          <div class="meta">
+            ${escapeHTML(movie.year || "")}
+            ${movie.genre ? " · " + escapeHTML(movie.genre) : ""}
+          </div>
+
+          <div class="ratings">
+
+            <span class="rating">
+              TMDB
+              ${movie.tmdb ?? "평점 없음"}
+            </span>
+
+            <span class="rating">
+              IMDb
+              ${movie.imdb ?? "평점 없음"}
+            </span>
+
+          </div>
+
+          <div class="meta">
+            TMDB 평가
+            ${Number(movie.tmdbVotes || 0).toLocaleString()}
+            명
+
+            ${
+              movie.imdbVotes
+                ? ` · IMDb ${escapeHTML(
+                    String(movie.imdbVotes)
+                  )}명`
+                : ""
+            }
+          </div>
+
+          ${
+            uniqueOTT.length
+              ? `
+                <div class="ott">
+                  한국 OTT:
+                  ${escapeHTML(
+                    uniqueOTT.join(", ")
+                  )}
+                </div>
+              `
+              : `
+                <div class="ott">
+                  한국 OTT 정보 없음
+                </div>
+              `
+          }
+
+        </div>
+
+      </article>
+    `;
+
+  }).join("");
+}
+
+
+/* ==============================
+   HTML 문자 보호
+============================== */
+
+function escapeHTML(value) {
+
+  return String(value).replace(
+    /[&<>"']/g,
+    character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[character])
+  );
+
+}
+
+
+/* ==============================
+   검색
+============================== */
+
+searchInput.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+      loadMovies();
+    }
+
+  }
+);
+
+
+/* ==============================
+   최초 실행
+============================== */
+
+loadMovies();
+
+</script>
+
+</body>
+</html>
