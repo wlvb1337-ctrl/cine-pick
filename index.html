@@ -9,7 +9,7 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}
 header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#151a24,#090b0f)}
 .wrap{max-width:1500px;margin:auto;padding:0 22px 70px}.brand{font-size:38px;font-weight:950;letter-spacing:-.04em}.sub{margin-top:8px;color:var(--muted);font-size:15px}
-.toolbar{display:flex;gap:10px;margin:28px 0 22px}.toolbar input,.toolbar select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.toolbar input{flex:1;min-width:0}.toolbar button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}
+.toolbar{display:flex;gap:10px;margin:28px 0 22px}.toolbar input,.toolbar select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.toolbar input{flex:1;min-width:0}.toolbar select{min-width:150px}.toolbar button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}.rank-line{display:flex;align-items:center;gap:8px;margin-bottom:7px;color:var(--muted);font-size:11px}.rank-line b{color:var(--accent);font-size:13px}.rank-line span{border:1px solid var(--line);border-radius:999px;padding:3px 7px}
 .status{margin:0 0 20px;color:var(--muted);font-size:14px}.error{background:#351719;border:1px solid #703137;color:#ffb5b5;padding:14px;border-radius:12px;margin-bottom:20px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer;transition:.18s}.card:hover{transform:translateY(-4px);border-color:#596273}.poster{aspect-ratio:2/3;background:#1a1e26;position:relative;overflow:hidden}.poster img{width:100%;height:100%;object-fit:cover;display:block}.poster .fallback{height:100%;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;font-size:25px;font-weight:900}.body{padding:13px}.title{font-size:16px;font-weight:800;margin-bottom:6px}.meta{font-size:12px;color:var(--muted);min-height:17px}.ratings{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid #3a4351;background:var(--panel2);border-radius:999px;padding:5px 8px;font-size:11px}.pill b{color:var(--accent);font-size:12px}.ott{margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5}.ott b{color:#dfe3ea}.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;padding:30px;overflow:auto}.modal.show{display:flex;align-items:center;justify-content:center}.dialog{width:min(920px,100%);background:var(--panel);border:1px solid #3b4350;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px #0008;position:relative}.close{position:absolute;right:14px;top:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid #ffffff33;background:#090b0fcc;color:#fff;font-size:24px;cursor:pointer}.detail{display:grid;grid-template-columns:280px 1fr}.detail-poster{background:#11151b;min-height:420px}.detail-poster img{width:100%;height:100%;object-fit:cover;display:block}.detail-info{padding:30px}.detail-info h2{font-size:32px;margin:0 45px 8px 0}.detail-meta{color:var(--muted);font-size:13px;margin-bottom:16px}.detail-ratings{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.score{background:var(--panel2);border:1px solid var(--line);padding:9px 11px;border-radius:10px;font-size:12px}.score strong{color:var(--accent);font-size:17px}.review{border-left:3px solid var(--accent);padding:4px 0 4px 13px;color:#dce0e7;line-height:1.7;margin:18px 0}.section{margin-top:22px}.section h3{font-size:15px;margin:0 0 10px}.provider-group{margin-bottom:12px}.provider-label{color:var(--muted);font-size:12px;margin-bottom:7px}.provider-list{display:flex;flex-wrap:wrap;gap:8px}.provider{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 9px;font-size:12px;color:var(--text);text-decoration:none;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}.provider:hover{border-color:var(--accent);background:#252b36;transform:translateY(-1px)}.provider:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.provider img{width:22px;height:22px;border-radius:5px;object-fit:cover}.provider-arrow{margin-left:2px;color:var(--accent);font-weight:800}.none{color:var(--muted);font-size:13px}.hint{color:var(--muted);font-size:12px}
@@ -46,7 +46,7 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
 <main class="wrap">
   <div class="toolbar">
     <input id="query" placeholder="영화 제목을 검색하세요" autocomplete="off">
-    <select id="mode"><option value="discover">추천</option><option value="search">검색</option></select>
+    <select id="mode" aria-label="영화 목록 선택"><option value="discover">추천</option><option value="search">검색</option><option value="weekly">주간 인기</option><option value="monthly">월간 인기</option><option value="alltime">누적 인기</option></select>
     <button id="searchBtn">검색</button>
   </div>
   <div id="status" class="status">영화를 불러오는 중입니다.</div>
@@ -107,27 +107,43 @@ let editingCommentId=null;
 let supabaseClient=null;
 let currentUser=null;
 let authError='';
+let authPromise=null;
+
+function getSupabaseClient(){
+  if(!window.supabase?.createClient) throw new Error('Supabase 모듈을 불러오지 못했습니다. 페이지를 새로고침해 주세요.');
+  if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes('여기에_')) throw new Error('index.html에 Supabase Publishable Key를 입력해야 합니다.');
+  if(!supabaseClient) supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  return supabaseClient;
+}
 
 async function ensureCommentAuth(){
   if(currentUser && supabaseClient) return currentUser;
+  if(authPromise) return authPromise;
   if(authError) throw new Error(authError);
-  try{
-    if(!window.supabase?.createClient) throw new Error('댓글 모듈을 불러오지 못했습니다. 페이지를 새로고침해 주세요.');
-    if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes('여기에_')) throw new Error('index.html에 Supabase Publishable Key를 입력해야 합니다.');
-    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-    const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-    if(sessionError) throw sessionError;
-    if(sessionData.session?.user){
-      currentUser=sessionData.session.user;
+
+  authPromise=(async()=>{
+    try{
+      const client=getSupabaseClient();
+      const {data:sessionData,error:sessionError}=await client.auth.getSession();
+      if(sessionError) throw sessionError;
+      if(sessionData.session?.user){
+        currentUser=sessionData.session.user;
+        return currentUser;
+      }
+      const {data,error}=await client.auth.signInAnonymously();
+      if(error) throw error;
+      currentUser=data.user;
       return currentUser;
+    }catch(error){
+      authError=error?.message||'익명 사용자 인증에 실패했습니다.';
+      throw new Error(authError);
     }
-    const {data,error}=await supabaseClient.auth.signInAnonymously();
-    if(error) throw error;
-    currentUser=data.user;
-    return currentUser;
-  }catch(error){
-    authError=error?.message||'익명 사용자 인증에 실패했습니다.';
-    throw new Error(authError);
+  })();
+
+  try{
+    return await authPromise;
+  }finally{
+    authPromise=null;
   }
 }
 
@@ -323,10 +339,11 @@ function ottSummary(m){
 }
 function render(){
   const grid=$("#grid");
-  if(!movies.length){grid.innerHTML='<div class="empty">영화가 없습니다.</div>';return;}
+  if(!movies.length){grid.innerHTML=`<div class="empty">${esc(emptyMessage)}</div>`;return;}
   grid.innerHTML=movies.map((m,i)=>`<article class="card" data-index="${i}">
     <div class="poster">${m.poster?`<img src="${esc(m.poster)}" alt="${esc(m.title)} 포스터" loading="lazy">`:`<div class="fallback">${esc(m.title)}</div>`}</div>
     <div class="body">
+      ${m.popularViews!=null?`<div class="rank-line"><b>${i+1}위</b><span>조회 ${Number(m.popularViews).toLocaleString()}회</span></div>`:''}
       <div class="title">${esc(m.title)}</div>
       <div class="meta">${esc(m.year)} · ${esc(m.genre||'장르 정보 없음')}</div>
       <div class="ratings"><span class="pill">TMDB <b>${m.tmdb??'—'}</b></span><span class="pill">IMDb <b>${m.imdb??'—'}</b></span></div>
@@ -335,37 +352,133 @@ function render(){
   </article>`).join('');
   grid.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>openDetail(movies[Number(c.dataset.index)])));
 }
-function recordView(id){
-  try{const a=JSON.parse(localStorage.getItem('cine_views')||'[]');a.push({id,at:Date.now()});localStorage.setItem('cine_views',JSON.stringify(a));return a.filter(x=>x.id===id).length;}catch{return 0;}
+function recordLocalView(id){
+  try{
+    const a=JSON.parse(localStorage.getItem('cine_views')||'[]');
+    a.push({id,at:Date.now()});
+    localStorage.setItem('cine_views',JSON.stringify(a));
+    return a.filter(x=>x.id===id).length;
+  }catch{return 0;}
 }
+
+async function recordCineMovieView(movie){
+  await ensureCommentAuth();
+  const {error}=await supabaseClient.rpc('record_cine_movie_view',{
+    p_movie_id:Number(movie.id),
+    p_movie_data:movie
+  });
+  if(error) throw error;
+}
+
 function openDetail(m){
   activeMovie=m;resetCommentEditor();
-  recordView(m.id);
+  const localViews=recordLocalView(m.id);
+  recordCineMovieView(m).then(()=>{
+    if(activeMovie?.id===m.id && m.popularViews==null){
+      $("#detailViews").textContent='전체 인기순 집계에 반영되었습니다. 방문자별 하루 1회 집계됩니다.';
+    }
+  }).catch(error=>{
+    if(activeMovie?.id===m.id){
+      $("#detailViews").textContent=`인기순 집계 연결 실패: ${error.message}`;
+    }
+  });
   $("#detailPoster").innerHTML=m.poster?`<img src="${esc(m.poster)}" alt="${esc(m.title)} 포스터">`:`<div class="fallback">${esc(m.title)}</div>`;
   $("#detailTitle").textContent=m.title||'';
   $("#detailMeta").textContent=[m.year,m.genre].filter(Boolean).join(' · ');
   $("#detailRatings").innerHTML=`<div class="score">TMDB <strong>${m.tmdb??'—'}</strong> <span class="hint">(${(m.tmdbVotes||0).toLocaleString()}명)</span></div><div class="score">IMDb <strong>${m.imdb??'—'}</strong> <span class="hint">${m.imdbVotes?`(${esc(m.imdbVotes)}명)`:''}</span></div>`;
   $("#detailReview").textContent=m.review||'한 줄평 정보가 없습니다.';
   $("#providers").innerHTML=`<div class="provider-group"><div class="provider-label">구독</div>${providerHtml(m.providers?.subscription,m)}</div><div class="provider-group"><div class="provider-label">대여</div>${providerHtml(m.providers?.rent,m)}</div><div class="provider-group"><div class="provider-label">구매</div>${providerHtml(m.providers?.buy,m)}</div>`;
-  const views=JSON.parse(localStorage.getItem('cine_views')||'[]').filter(x=>x.id===m.id).length;
-  $("#detailViews").textContent=`이 브라우저에서 ${views}회 열람`;
+  $("#detailViews").textContent=m.popularViews!=null
+    ? `전체 ${Number(m.popularViews).toLocaleString()}회 조회 · ${localViews}회 이 브라우저에서 열람`
+    : `인기순 집계는 방문자별 하루 1회 기록됩니다. (이 브라우저 ${localViews}회 열람)`;
   $("#modal").classList.add('show');$("#modal").setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
   loadComments();
 }
 function closeDetail(){$("#modal").classList.remove('show');$("#modal").setAttribute('aria-hidden','true');document.body.style.overflow='';}
+let emptyMessage='영화가 없습니다.';
+
+async function loadPopularity(period){
+  const labels={weekly:'주간 인기',monthly:'월간 인기',alltime:'누적 인기'};
+  $("#error").innerHTML='';
+  $("#status").textContent=`${labels[period]} 순위를 불러오는 중입니다.`;
+  emptyMessage='아직 조회 기록이 없습니다. 영화 상세정보를 열면 인기순 데이터가 쌓입니다.';
+  try{
+    await ensureCommentAuth();
+    const {data,error}=await supabaseClient.rpc('get_cine_popular_movies',{
+      p_period:period,
+      p_limit:50
+    });
+    if(error) throw error;
+    movies=(data||[]).map(row=>({
+      ...(row.movie_data||{}),
+      id:Number(row.movie_id),
+      popularViews:Number(row.view_count||0)
+    }));
+    render();
+    $("#status").textContent=`${labels[period]} TOP ${movies.length} · ${period==='weekly'?'최근 7일':period==='monthly'?'이번 달':'전체 기간'} 기준`;
+  }catch(error){
+    movies=[];
+    emptyMessage='인기순 데이터를 불러오지 못했습니다.';
+    render();
+    $("#status").textContent='인기순 연결 실패';
+    $("#error").innerHTML=`<div class="error">${esc(error.message)}<br><span class="hint">Supabase에서 popularity_setup.sql을 실행했는지, Anonymous Sign-Ins가 켜져 있는지 확인하세요.</span></div>`;
+  }
+}
+
 async function load(){
-  $("#error").innerHTML='';$("#status").textContent='영화를 불러오는 중입니다.';
+  const mode=$("#mode").value;
+  if(['weekly','monthly','alltime'].includes(mode)){
+    await loadPopularity(mode);
+    return;
+  }
+
+  $("#error").innerHTML='';
   const q=$("#query").value.trim();
+  const isSearch=mode==='search' || Boolean(q);
+  if(isSearch && !q){
+    $("#status").textContent='검색할 영화 제목을 입력하세요.';
+    $("#query").focus();
+    return;
+  }
+
+  emptyMessage='영화가 없습니다.';
+  $("#status").textContent=isSearch?'영화를 검색하고 있습니다.':'추천 영화를 불러오는 중입니다.';
   const url=new URL(`${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`);
-  url.searchParams.set('mode',q?'search':'discover');if(q)url.searchParams.set('query',q);
+  url.searchParams.set('mode',isSearch?'search':'discover');
+  if(isSearch) url.searchParams.set('query',q);
   try{
     const r=await fetch(url,{headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${SUPABASE_PUBLISHABLE_KEY}`,Accept:'application/json'}});
     const data=await r.json().catch(()=>({}));
     if(!r.ok||data.success===false)throw new Error(data.error||`API 오류 ${r.status}`);
-    movies=data.results||[];render();$("#status").textContent=`${movies.length}편의 영화를 불러왔습니다.`;
-  }catch(e){movies=[];render();$("#status").textContent='API 연결 실패';$("#error").innerHTML=`<div class="error">API 연결 실패: ${esc(e.message)}<br><span class="hint">Supabase hyper-processor와 TMDB 인증 설정을 확인하세요.</span></div>`;}
+    movies=data.results||[];
+    render();
+    $("#status").textContent=isSearch?`${movies.length}편의 검색 결과입니다.`:`추천 영화 ${movies.length}편을 불러왔습니다.`;
+  }catch(e){
+    movies=[];render();$("#status").textContent='API 연결 실패';
+    $("#error").innerHTML=`<div class="error">API 연결 실패: ${esc(e.message)}<br><span class="hint">Supabase hyper-processor와 TMDB 인증 설정을 확인하세요.</span></div>`;
+  }
 }
-$("#searchBtn").addEventListener('click',load);$("#query").addEventListener('keydown',e=>{if(e.key==='Enter')load()});
+
+$("#searchBtn").addEventListener('click',()=>{
+  if($("#query").value.trim() && $("#mode").value==='discover') $("#mode").value='search';
+  load();
+});
+$("#query").addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    $("#mode").value='search';
+    load();
+  }
+});
+$("#mode").addEventListener('change',()=>{
+  const mode=$("#mode").value;
+  if(mode==='search'){
+    $("#status").textContent='검색할 영화 제목을 입력하세요.';
+    $("#query").focus();
+  }else{
+    $("#query").value='';
+    load();
+  }
+});
 $("#commentForm").addEventListener('submit',submitComment);
 $("#commentList").addEventListener('click',handleCommentAction);
 $("#cancelCommentEdit").addEventListener('click',resetCommentEditor);
