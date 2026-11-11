@@ -1,508 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CINE PICK</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CINE PICK — 한국 OTT 영화 탐색</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #0b0c10;
-  color: #fff;
-  font-family: Arial, "Noto Sans KR", sans-serif;
-}
-
-header {
-  padding: 28px 5%;
-  border-bottom: 1px solid #252730;
-  background: #0b0c10;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.logo {
-  font-size: 30px;
-  font-weight: 900;
-}
-
-.subtitle {
-  color: #999;
-  margin-top: 6px;
-  font-size: 13px;
-}
-
-.controls {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-input,
-select,
-button {
-  border: 1px solid #30333b;
-  background: #15171d;
-  color: white;
-  border-radius: 9px;
-  padding: 12px;
-}
-
-input {
-  flex: 1;
-  min-width: 200px;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:hover {
-  background: #252832;
-}
-
-main {
-  width: 90%;
-  max-width: 1400px;
-  margin: 30px auto;
-}
-
-.status {
-  color: #aaa;
-  font-size: 13px;
-  margin-bottom: 20px;
-}
-
-.error {
-  background: #351719;
-  border: 1px solid #74343a;
-  color: #ffb5b5;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  display: none;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 22px;
-}
-
-.card {
-  background: #121419;
-  border: 1px solid #252830;
-  border-radius: 13px;
-  overflow: hidden;
-}
-
-.poster {
-  aspect-ratio: 2 / 3;
-  background: linear-gradient(135deg, #252936, #111318);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  font-size: 12px;
-}
-
-.poster img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.info {
-  padding: 13px;
-}
-
-.title {
-  font-weight: bold;
-  line-height: 1.4;
-}
-
-.meta {
-  color: #999;
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.ratings {
-  display: flex;
-  gap: 6px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.rating {
-  border: 1px solid #353842;
-  border-radius: 20px;
-  padding: 5px 8px;
-  font-size: 11px;
-}
-
-.ott {
-  color: #aaa;
-  font-size: 11px;
-  margin-top: 10px;
-  line-height: 1.5;
-}
-
-@media(max-width:600px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  main {
-    width: 94%;
-  }
-
-  .controls {
-    flex-wrap: wrap;
-  }
-}
+:root{--bg:#090b0f;--panel:#141820;--panel2:#1b202a;--line:#29303b;--text:#f5f6f8;--muted:#9ba3b2;--accent:#e8b85d;--danger:#ff8f8f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}
+header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#151a24,#090b0f)}
+.wrap{max-width:1500px;margin:auto;padding:0 22px 70px}.brand{font-size:38px;font-weight:950;letter-spacing:-.04em}.sub{margin-top:8px;color:var(--muted);font-size:15px}
+.toolbar{display:flex;gap:10px;margin:28px 0 22px}.toolbar input,.toolbar select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.toolbar input{flex:1;min-width:0}.toolbar button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}
+.status{margin:0 0 20px;color:var(--muted);font-size:14px}.error{background:#351719;border:1px solid #703137;color:#ffb5b5;padding:14px;border-radius:12px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer;transition:.18s}.card:hover{transform:translateY(-4px);border-color:#596273}.poster{aspect-ratio:2/3;background:#1a1e26;position:relative;overflow:hidden}.poster img{width:100%;height:100%;object-fit:cover;display:block}.poster .fallback{height:100%;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;font-size:25px;font-weight:900}.body{padding:13px}.title{font-size:16px;font-weight:800;margin-bottom:6px}.meta{font-size:12px;color:var(--muted);min-height:17px}.ratings{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid #3a4351;background:var(--panel2);border-radius:999px;padding:5px 8px;font-size:11px}.pill b{color:var(--accent);font-size:12px}.ott{margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5}.ott b{color:#dfe3ea}.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;padding:30px;overflow:auto}.modal.show{display:flex;align-items:center;justify-content:center}.dialog{width:min(920px,100%);background:var(--panel);border:1px solid #3b4350;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px #0008;position:relative}.close{position:absolute;right:14px;top:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid #ffffff33;background:#090b0fcc;color:#fff;font-size:24px;cursor:pointer}.detail{display:grid;grid-template-columns:280px 1fr}.detail-poster{background:#11151b;min-height:420px}.detail-poster img{width:100%;height:100%;object-fit:cover;display:block}.detail-info{padding:30px}.detail-info h2{font-size:32px;margin:0 45px 8px 0}.detail-meta{color:var(--muted);font-size:13px;margin-bottom:16px}.detail-ratings{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.score{background:var(--panel2);border:1px solid var(--line);padding:9px 11px;border-radius:10px;font-size:12px}.score strong{color:var(--accent);font-size:17px}.review{border-left:3px solid var(--accent);padding:4px 0 4px 13px;color:#dce0e7;line-height:1.7;margin:18px 0}.section{margin-top:22px}.section h3{font-size:15px;margin:0 0 10px}.provider-group{margin-bottom:12px}.provider-label{color:var(--muted);font-size:12px;margin-bottom:7px}.provider-list{display:flex;flex-wrap:wrap;gap:8px}.provider{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 9px;font-size:12px}.provider img{width:22px;height:22px;border-radius:5px;object-fit:cover}.none{color:var(--muted);font-size:13px}.hint{color:var(--muted);font-size:12px}
+@media(max-width:700px){.toolbar{flex-wrap:wrap}.toolbar input{width:100%;flex-basis:100%}.detail{grid-template-columns:1fr}.detail-poster{height:360px}.detail-info{padding:22px}.detail-info h2{font-size:27px}.modal{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 </style>
 </head>
-
 <body>
-
-<header>
-  <div class="logo">CINE PICK</div>
-  <div class="subtitle">한국 OTT 영화 탐색</div>
-
-  <div class="controls">
-    <input
-      id="search"
-      type="text"
-      placeholder="영화 제목을 검색하세요"
-    >
-
-    <select id="mode">
-      <option value="discover">추천</option>
-      <option value="popular">인기</option>
-      <option value="top">TMDB 평점</option>
-      <option value="new">최신</option>
-    </select>
-
-    <button onclick="loadMovies()">검색</button>
+<header><div class="wrap" style="padding-bottom:0"><div class="brand">CINE PICK</div><div class="sub">한국 OTT 영화 탐색</div></div></header>
+<main class="wrap">
+  <div class="toolbar">
+    <input id="query" placeholder="영화 제목을 검색하세요" autocomplete="off">
+    <select id="mode"><option value="discover">추천</option><option value="search">검색</option></select>
+    <button id="searchBtn">검색</button>
   </div>
-</header>
-
-<main>
-
-  <div id="status" class="status">
-    영화 정보를 불러오는 중...
-  </div>
-
-  <div id="error" class="error"></div>
-
-  <div id="grid" class="grid"></div>
-
+  <div id="status" class="status">영화를 불러오는 중입니다.</div>
+  <div id="error"></div>
+  <section id="grid" class="grid"></section>
 </main>
 
-<script>
-
-/* ==============================
-   SUPABASE 설정
-============================== */
-
-const SUPABASE_URL =
-  "https://nxrohsvtcckarurkpull.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_TjNFFVWTyk1ERcjhdCKLAw_v21E0WTF";
-
-/*
-  현재 Supabase에서 만든 Edge Function 이름
-*/
-const FUNCTION_NAME = "hyper-processor";
-
-
-/* ==============================
-   HTML 요소
-============================== */
-
-const searchInput = document.getElementById("search");
-const modeSelect = document.getElementById("mode");
-const grid = document.getElementById("grid");
-const statusBox = document.getElementById("status");
-const errorBox = document.getElementById("error");
-
-
-/* ==============================
-   영화 불러오기
-============================== */
-
-async function loadMovies() {
-
-  errorBox.style.display = "none";
-  errorBox.textContent = "";
-
-  statusBox.textContent = "영화 정보를 불러오는 중...";
-
-  grid.innerHTML = "";
-
-  try {
-
-    if (
-      SUPABASE_PUBLISHABLE_KEY.includes("여기에_본인의")
-    ) {
-      throw new Error(
-        "Supabase Publishable key가 입력되지 않았습니다."
-      );
-    }
-
-    const url =
-      `${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`;
-
-    const requestUrl = new URL(url);
-
-    requestUrl.searchParams.set(
-      "mode",
-      modeSelect.value
-    );
-
-    const query = searchInput.value.trim();
-
-    if (query) {
-      requestUrl.searchParams.set("query", query);
-    }
-
-    const response = await fetch(
-      requestUrl.toString(),
-      {
-        method: "GET",
-
-        headers: {
-          "apikey": SUPABASE_PUBLISHABLE_KEY,
-          "Authorization":
-            `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-    const text = await response.text();
-
-    let data;
-
-    try {
-      data = JSON.parse(text);
-    } catch {
-      throw new Error(
-        `Supabase 응답 오류 (${response.status})`
-      );
-    }
-
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        `API 오류 (${response.status})`
-      );
-    }
-
-    if (data.success === false) {
-      throw new Error(
-        data.error ||
-        "영화 데이터를 가져오지 못했습니다."
-      );
-    }
-
-    const movies = data.results || [];
-
-    renderMovies(movies);
-
-    statusBox.textContent =
-      `${movies.length}편의 영화를 불러왔습니다.`;
-
-  } catch (error) {
-
-    console.error(error);
-
-    statusBox.textContent = "API 연결 실패";
-
-    errorBox.style.display = "block";
-
-    errorBox.textContent =
-      `API 연결 실패: ${error.message}`;
-  }
-}
-
-
-/* ==============================
-   영화 카드
-============================== */
-
-function renderMovies(movies) {
-
-  if (!movies.length) {
-
-    grid.innerHTML = `
-      <div style="
-        color:#999;
-        padding:40px 0;
-      ">
-        검색 결과가 없습니다.
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="dialog">
+    <button class="close" id="closeBtn" aria-label="닫기">×</button>
+    <div class="detail">
+      <div class="detail-poster" id="detailPoster"></div>
+      <div class="detail-info">
+        <h2 id="detailTitle"></h2>
+        <div class="detail-meta" id="detailMeta"></div>
+        <div class="detail-ratings" id="detailRatings"></div>
+        <div class="review" id="detailReview"></div>
+        <div class="section">
+          <h3>한국 OTT</h3>
+          <div id="providers"></div>
+        </div>
+        <div class="section hint" id="detailViews"></div>
       </div>
-    `;
+    </div>
+  </div>
+</div>
 
-    return;
-  }
+<script>
+const SUPABASE_URL="https://nxrohsvtcckarurkpull.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_TjNFFVWTyk1ERcjhdCKLAw_v21E0WTF";
+const FUNCTION_NAME="hyper-processor";
 
-  grid.innerHTML = movies.map(movie => {
+const $=s=>document.querySelector(s);
+let movies=[];
 
-    const poster = movie.poster
-      ? `<img
-           src="${escapeHTML(movie.poster)}"
-           alt="${escapeHTML(movie.title || "")}"
-           loading="lazy"
-         >`
-      : "POSTER";
-
-    const subscription =
-      movie.providers?.subscription || [];
-
-    const rent =
-      movie.providers?.rent || [];
-
-    const buy =
-      movie.providers?.buy || [];
-
-    const ottNames = [
-      ...subscription,
-      ...rent,
-      ...buy
-    ]
-      .map(item => item.name)
-      .filter(Boolean);
-
-    const uniqueOTT = [
-      ...new Set(ottNames)
-    ];
-
-    return `
-      <article class="card">
-
-        <div class="poster">
-          ${poster}
-        </div>
-
-        <div class="info">
-
-          <div class="title">
-            ${escapeHTML(
-              movie.title || "제목 없음"
-            )}
-          </div>
-
-          <div class="meta">
-            ${escapeHTML(movie.year || "")}
-            ${movie.genre ? " · " + escapeHTML(movie.genre) : ""}
-          </div>
-
-          <div class="ratings">
-
-            <span class="rating">
-              TMDB
-              ${movie.tmdb ?? "평점 없음"}
-            </span>
-
-            <span class="rating">
-              IMDb
-              ${movie.imdb ?? "평점 없음"}
-            </span>
-
-          </div>
-
-          <div class="meta">
-            TMDB 평가
-            ${Number(movie.tmdbVotes || 0).toLocaleString()}
-            명
-
-            ${
-              movie.imdbVotes
-                ? ` · IMDb ${escapeHTML(
-                    String(movie.imdbVotes)
-                  )}명`
-                : ""
-            }
-          </div>
-
-          ${
-            uniqueOTT.length
-              ? `
-                <div class="ott">
-                  한국 OTT:
-                  ${escapeHTML(
-                    uniqueOTT.join(", ")
-                  )}
-                </div>
-              `
-              : `
-                <div class="ott">
-                  한국 OTT 정보 없음
-                </div>
-              `
-          }
-
-        </div>
-
-      </article>
-    `;
-
-  }).join("");
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function providerHtml(items){
+  if(!items||!items.length)return '<div class="none">제공 정보 없음</div>';
+  return '<div class="provider-list">'+items.map(p=>`<div class="provider">${p.logo?`<img src="${esc(p.logo)}" alt="">`:''}<span>${esc(p.name)}</span></div>`).join('')+'</div>';
 }
-
-
-/* ==============================
-   HTML 문자 보호
-============================== */
-
-function escapeHTML(value) {
-
-  return String(value).replace(
-    /[&<>"']/g,
-    character => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[character])
-  );
-
+function ottSummary(m){
+  const names=[...(m.providers?.subscription||[]),...(m.providers?.rent||[]),...(m.providers?.buy||[])].map(x=>x.name);
+  return names.length?[...new Set(names)].slice(0,4).join(' · '):'한국 OTT 정보 없음';
 }
-
-
-/* ==============================
-   검색
-============================== */
-
-searchInput.addEventListener(
-  "keydown",
-  event => {
-
-    if (event.key === "Enter") {
-      loadMovies();
-    }
-
-  }
-);
-
-
-/* ==============================
-   최초 실행
-============================== */
-
-loadMovies();
-
+function render(){
+  const grid=$("#grid");
+  if(!movies.length){grid.innerHTML='<div class="empty">영화가 없습니다.</div>';return;}
+  grid.innerHTML=movies.map((m,i)=>`<article class="card" data-index="${i}">
+    <div class="poster">${m.poster?`<img src="${esc(m.poster)}" alt="${esc(m.title)} 포스터" loading="lazy">`:`<div class="fallback">${esc(m.title)}</div>`}</div>
+    <div class="body">
+      <div class="title">${esc(m.title)}</div>
+      <div class="meta">${esc(m.year)} · ${esc(m.genre||'장르 정보 없음')}</div>
+      <div class="ratings"><span class="pill">TMDB <b>${m.tmdb??'—'}</b></span><span class="pill">IMDb <b>${m.imdb??'—'}</b></span></div>
+      <div class="ott"><b>한국 OTT</b><br>${esc(ottSummary(m))}</div>
+    </div>
+  </article>`).join('');
+  grid.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>openDetail(movies[Number(c.dataset.index)])));
+}
+function recordView(id){
+  try{const a=JSON.parse(localStorage.getItem('cine_views')||'[]');a.push({id,at:Date.now()});localStorage.setItem('cine_views',JSON.stringify(a));return a.filter(x=>x.id===id).length;}catch{return 0;}
+}
+function openDetail(m){
+  recordView(m.id);
+  $("#detailPoster").innerHTML=m.poster?`<img src="${esc(m.poster)}" alt="${esc(m.title)} 포스터">`:`<div class="fallback">${esc(m.title)}</div>`;
+  $("#detailTitle").textContent=m.title||'';
+  $("#detailMeta").textContent=[m.year,m.genre].filter(Boolean).join(' · ');
+  $("#detailRatings").innerHTML=`<div class="score">TMDB <strong>${m.tmdb??'—'}</strong> <span class="hint">(${(m.tmdbVotes||0).toLocaleString()}명)</span></div><div class="score">IMDb <strong>${m.imdb??'—'}</strong> <span class="hint">${m.imdbVotes?`(${esc(m.imdbVotes)}명)`:''}</span></div>`;
+  $("#detailReview").textContent=m.review||'한 줄평 정보가 없습니다.';
+  $("#providers").innerHTML=`<div class="provider-group"><div class="provider-label">구독</div>${providerHtml(m.providers?.subscription)}</div><div class="provider-group"><div class="provider-label">대여</div>${providerHtml(m.providers?.rent)}</div><div class="provider-group"><div class="provider-label">구매</div>${providerHtml(m.providers?.buy)}</div>`;
+  const views=JSON.parse(localStorage.getItem('cine_views')||'[]').filter(x=>x.id===m.id).length;
+  $("#detailViews").textContent=`이 브라우저에서 ${views}회 열람`;
+  $("#modal").classList.add('show');$("#modal").setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+}
+function closeDetail(){$("#modal").classList.remove('show');$("#modal").setAttribute('aria-hidden','true');document.body.style.overflow='';}
+async function load(){
+  $("#error").innerHTML='';$("#status").textContent='영화를 불러오는 중입니다.';
+  const q=$("#query").value.trim();
+  const url=new URL(`${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`);
+  url.searchParams.set('mode',q?'search':'discover');if(q)url.searchParams.set('query',q);
+  try{
+    const r=await fetch(url,{headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${SUPABASE_PUBLISHABLE_KEY}`,Accept:'application/json'}});
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok||data.success===false)throw new Error(data.error||`API 오류 ${r.status}`);
+    movies=data.results||[];render();$("#status").textContent=`${movies.length}편의 영화를 불러왔습니다.`;
+  }catch(e){movies=[];render();$("#status").textContent='API 연결 실패';$("#error").innerHTML=`<div class="error">API 연결 실패: ${esc(e.message)}<br><span class="hint">Supabase hyper-processor와 TMDB 인증 설정을 확인하세요.</span></div>`;}
+}
+$("#searchBtn").addEventListener('click',load);$("#query").addEventListener('keydown',e=>{if(e.key==='Enter')load()});
+$("#closeBtn").addEventListener('click',closeDetail);$("#modal").addEventListener('click',e=>{if(e.target.id==='modal')closeDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail()});
+load();
 </script>
-
 </body>
 </html>
