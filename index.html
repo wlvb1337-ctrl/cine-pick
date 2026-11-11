@@ -42,7 +42,7 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
         <div class="section">
           <h3>한국 OTT</h3>
           <div id="providers"></div>
-          <div class="hint" style="margin-top:8px">OTT 버튼을 누르면 해당 영화의 한국 시청처 안내 페이지가 새 창으로 열립니다.</div>
+          <div class="hint" style="margin-top:8px">OTT 버튼을 누르면 해당 서비스의 영화 검색 페이지가 새 창으로 열립니다. 해당 서비스에서 검색 링크를 지원하지 않거나 제공처를 식별할 수 없으면 한국 시청처 안내 페이지로 이동합니다.</div>
         </div>
         <div class="section hint" id="detailViews"></div>
       </div>
@@ -52,14 +52,14 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
 
 <script>
 const SUPABASE_URL="https://nxrohsvtcckarurkpull.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_TjNFFVWTyk1ERcjhdCKLAw_v21E0WTF";
+const SUPABASE_PUBLISHABLE_KEY="여기에_현재_사용중인_Publishable_Key를_넣으세요";
 const FUNCTION_NAME="hyper-processor";
 
 const $=s=>document.querySelector(s);
 let movies=[];
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
-function providerHtml(items){
+function providerHtml(items, movie){
   if(!items || !items.length){
     return '<div class="none">제공 정보 없음</div>';
   }
@@ -68,17 +68,52 @@ function providerHtml(items){
     const name = esc(p.name || 'OTT');
     const logo = p.logo ? `<img src="${esc(p.logo)}" alt="">` : '';
     const content = `${logo}<span>${name}</span><span class="provider-arrow" aria-hidden="true">↗</span>`;
-    const href = safeHttpUrl(p.link);
 
-    // Edge Function이 제공한 한국 시청처 링크가 있을 때만 실제 링크로 표시합니다.
+    // 해당 OTT의 공식 검색 페이지를 우선 사용하고, 없으면 TMDB 안내 링크를 사용합니다.
+    const href = providerSearchUrl(p.name, movie) || safeHttpUrl(p.link);
+
     if (href) {
-      return `<a class="provider" href="${esc(href)}" target="_blank" rel="noopener noreferrer" aria-label="${name} 시청 정보 새 창에서 열기">${content}</a>`;
+      return `<a class="provider" href="${esc(href)}" target="_blank" rel="noopener noreferrer" aria-label="${name}에서 ${esc(movie?.title || '영화')} 검색 (새 창)">${content}</a>`;
     }
 
     return `<div class="provider" title="시청 링크 정보가 없습니다.">${logo}<span>${name}</span></div>`;
   }).join('') + '</div>';
 }
 
+function providerSearchUrl(providerName, movie){
+  const raw = String(providerName || '').toLowerCase().replace(/[\s+._-]/g, '');
+  const title = String(movie?.title || '').trim();
+  if(!title) return null;
+
+  const q = encodeURIComponent(title);
+  const providers = {
+    netflix: `https://www.netflix.com/search?q=${q}`,
+    '넷플릭스': `https://www.netflix.com/search?q=${q}`,
+    disneyplus: `https://www.disneyplus.com/ko-kr/search?q=${q}`,
+    '디즈니플러스': `https://www.disneyplus.com/ko-kr/search?q=${q}`,
+    tving: `https://www.tving.com/search?query=${q}`,
+    '티빙': `https://www.tving.com/search?query=${q}`,
+    wavve: `https://www.wavve.com/search?searchWord=${q}`,
+    wave: `https://www.wavve.com/search?searchWord=${q}`,
+    '웨이브': `https://www.wavve.com/search?searchWord=${q}`,
+    watcha: `https://watcha.com/search?query=${q}`,
+    '왓챠': `https://watcha.com/search?query=${q}`,
+    coupangplay: `https://www.coupangplay.com/search?query=${q}`,
+    '쿠팡플레이': `https://www.coupangplay.com/search?query=${q}`,
+    appletv: `https://tv.apple.com/kr/search?term=${q}`,
+    '애플tv': `https://tv.apple.com/kr/search?term=${q}`
+  };
+
+  // provider names can include extra punctuation or spacing; use normalized aliases.
+  if(raw.includes('netflix') || raw.includes('넷플릭스')) return providers.netflix;
+  if(raw.includes('disney') || raw.includes('디즈니')) return providers.disneyplus;
+  if(raw.includes('tving') || raw.includes('티빙')) return providers.tving;
+  if(raw.includes('wavve') || raw.includes('wave') || raw.includes('웨이브')) return providers.wavve;
+  if(raw.includes('watcha') || raw.includes('왓챠')) return providers.watcha;
+  if(raw.includes('coupangplay') || raw.includes('쿠팡플레이')) return providers.coupangplay;
+  if(raw.includes('apple') || raw.includes('애플')) return providers.appletv;
+  return null;
+}
 function safeHttpUrl(value){
   if(!value) return null;
   try{
@@ -116,7 +151,7 @@ function openDetail(m){
   $("#detailMeta").textContent=[m.year,m.genre].filter(Boolean).join(' · ');
   $("#detailRatings").innerHTML=`<div class="score">TMDB <strong>${m.tmdb??'—'}</strong> <span class="hint">(${(m.tmdbVotes||0).toLocaleString()}명)</span></div><div class="score">IMDb <strong>${m.imdb??'—'}</strong> <span class="hint">${m.imdbVotes?`(${esc(m.imdbVotes)}명)`:''}</span></div>`;
   $("#detailReview").textContent=m.review||'한 줄평 정보가 없습니다.';
-  $("#providers").innerHTML=`<div class="provider-group"><div class="provider-label">구독</div>${providerHtml(m.providers?.subscription)}</div><div class="provider-group"><div class="provider-label">대여</div>${providerHtml(m.providers?.rent)}</div><div class="provider-group"><div class="provider-label">구매</div>${providerHtml(m.providers?.buy)}</div>`;
+  $("#providers").innerHTML=`<div class="provider-group"><div class="provider-label">구독</div>${providerHtml(m.providers?.subscription,m)}</div><div class="provider-group"><div class="provider-label">대여</div>${providerHtml(m.providers?.rent,m)}</div><div class="provider-group"><div class="provider-label">구매</div>${providerHtml(m.providers?.buy,m)}</div>`;
   const views=JSON.parse(localStorage.getItem('cine_views')||'[]').filter(x=>x.id===m.id).length;
   $("#detailViews").textContent=`이 브라우저에서 ${views}회 열람`;
   $("#modal").classList.add('show');$("#modal").setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
