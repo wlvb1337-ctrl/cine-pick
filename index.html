@@ -9,7 +9,7 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}
 header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#151a24,#090b0f)}
 .wrap{max-width:1500px;margin:auto;padding:0 22px 70px}.brand{font-size:38px;font-weight:950;letter-spacing:-.04em}.sub{margin-top:8px;color:var(--muted);font-size:15px}
-.toolbar{display:flex;gap:10px;margin:28px 0 22px}.toolbar input,.toolbar select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.toolbar input{flex:1;min-width:0}.toolbar select{min-width:150px}.toolbar button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}.rank-line{display:flex;align-items:center;gap:8px;margin-bottom:7px;color:var(--muted);font-size:11px}.rank-line b{color:var(--accent);font-size:13px}.rank-line span{border:1px solid var(--line);border-radius:999px;padding:3px 7px}
+.toolbar{display:block;margin:28px 0 22px}.mode-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.mode-tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:10px 15px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:.15s}.mode-tab:hover{border-color:#596273;color:var(--text)}.mode-tab.active{background:var(--accent);border-color:var(--accent);color:#17130b}.search-row{display:flex;gap:10px}.search-row input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.search-row button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}.rank-line{display:flex;align-items:center;gap:8px;margin-bottom:7px;color:var(--muted);font-size:11px}.rank-line b{color:var(--accent);font-size:13px}.rank-line span{border:1px solid var(--line);border-radius:999px;padding:3px 7px}
 .status{margin:0 0 20px;color:var(--muted);font-size:14px}.error{background:#351719;border:1px solid #703137;color:#ffb5b5;padding:14px;border-radius:12px;margin-bottom:20px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer;transition:.18s}.card:hover{transform:translateY(-4px);border-color:#596273}.poster{aspect-ratio:2/3;background:#1a1e26;position:relative;overflow:hidden}.poster img{width:100%;height:100%;object-fit:cover;display:block}.poster .fallback{height:100%;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;font-size:25px;font-weight:900}.body{padding:13px}.title{font-size:16px;font-weight:800;margin-bottom:6px}.meta{font-size:12px;color:var(--muted);min-height:17px}.ratings{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid #3a4351;background:var(--panel2);border-radius:999px;padding:5px 8px;font-size:11px}.pill b{color:var(--accent);font-size:12px}.ott{margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5}.ott b{color:#dfe3ea}.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;padding:30px;overflow:auto}.modal.show{display:flex;align-items:center;justify-content:center}.dialog{width:min(920px,100%);background:var(--panel);border:1px solid #3b4350;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px #0008;position:relative}.close{position:absolute;right:14px;top:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid #ffffff33;background:#090b0fcc;color:#fff;font-size:24px;cursor:pointer}.detail{display:grid;grid-template-columns:280px 1fr}.detail-poster{background:#11151b;min-height:420px}.detail-poster img{width:100%;height:100%;object-fit:cover;display:block}.detail-info{padding:30px}.detail-info h2{font-size:32px;margin:0 45px 8px 0}.detail-meta{color:var(--muted);font-size:13px;margin-bottom:16px}.detail-ratings{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.score{background:var(--panel2);border:1px solid var(--line);padding:9px 11px;border-radius:10px;font-size:12px}.score strong{color:var(--accent);font-size:17px}.review{border-left:3px solid var(--accent);padding:4px 0 4px 13px;color:#dce0e7;line-height:1.7;margin:18px 0}.section{margin-top:22px}.section h3{font-size:15px;margin:0 0 10px}.provider-group{margin-bottom:12px}.provider-label{color:var(--muted);font-size:12px;margin-bottom:7px}.provider-list{display:flex;flex-wrap:wrap;gap:8px}.provider{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 9px;font-size:12px;color:var(--text);text-decoration:none;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}.provider:hover{border-color:var(--accent);background:#252b36;transform:translateY(-1px)}.provider:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.provider img{width:22px;height:22px;border-radius:5px;object-fit:cover}.provider-arrow{margin-left:2px;color:var(--accent);font-weight:800}.none{color:var(--muted);font-size:13px}.hint{color:var(--muted);font-size:12px}
@@ -38,16 +38,24 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
 .comment-empty,.comment-message{font-size:12px;color:var(--muted);padding:12px 2px;line-height:1.6}
 .comment-message.error{background:#351719;border:1px solid #703137;color:#ffb5b5;border-radius:9px;padding:10px}
 
-@media(max-width:700px){.toolbar{flex-wrap:wrap}.toolbar input{width:100%;flex-basis:100%}.detail{grid-template-columns:1fr}.detail-poster{height:360px}.detail-info{padding:22px}.detail-info h2{font-size:27px}.modal{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+@media(max-width:700px){.mode-tabs{gap:6px}.mode-tab{padding:9px 11px;font-size:12px}.search-row{flex-wrap:wrap}.search-row input{width:100%;flex-basis:100%}.search-row button{padding:12px 18px}.detail{grid-template-columns:1fr}.detail-poster{height:360px}.detail-info{padding:22px}.detail-info h2{font-size:27px}.modal{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 </style>
 </head>
 <body>
 <header><div class="wrap" style="padding-bottom:0"><div class="brand">CINE PICK</div><div class="sub">한국 OTT 영화 탐색</div></div></header>
 <main class="wrap">
   <div class="toolbar">
-    <input id="query" placeholder="영화 제목을 검색하세요" autocomplete="off">
-    <select id="mode" aria-label="영화 목록 선택"><option value="discover">추천</option><option value="search">검색</option><option value="weekly">주간 인기</option><option value="monthly">월간 인기</option><option value="alltime">누적 인기</option></select>
-    <button id="searchBtn">검색</button>
+    <nav class="mode-tabs" id="modeTabs" aria-label="영화 목록">
+      <button type="button" class="mode-tab active" data-mode="discover" aria-pressed="true">추천순</button>
+      <button type="button" class="mode-tab" data-mode="search" aria-pressed="false">검색</button>
+      <button type="button" class="mode-tab" data-mode="weekly" aria-pressed="false">주간 인기</button>
+      <button type="button" class="mode-tab" data-mode="monthly" aria-pressed="false">월간 인기</button>
+      <button type="button" class="mode-tab" data-mode="alltime" aria-pressed="false">누적 인기</button>
+    </nav>
+    <div class="search-row">
+      <input id="query" placeholder="영화 제목을 검색하세요" autocomplete="off">
+      <button id="searchBtn" type="button">검색</button>
+    </div>
   </div>
   <div id="status" class="status">영화를 불러오는 중입니다.</div>
   <div id="error"></div>
@@ -102,6 +110,7 @@ const FUNCTION_NAME="hyper-processor";
 const $=s=>document.querySelector(s);
 
 let movies=[];
+let currentMode='discover';
 let activeMovie=null;
 let editingCommentId=null;
 let supabaseClient=null;
@@ -426,7 +435,7 @@ async function loadPopularity(period){
 }
 
 async function load(){
-  const mode=$("#mode").value;
+  const mode=currentMode;
   if(['weekly','monthly','alltime'].includes(mode)){
     await loadPopularity(mode);
     return;
@@ -442,7 +451,7 @@ async function load(){
   }
 
   emptyMessage='영화가 없습니다.';
-  $("#status").textContent=isSearch?'영화를 검색하고 있습니다.':'추천 영화를 불러오는 중입니다.';
+  $("#status").textContent=isSearch?'영화를 검색하고 있습니다.':'추천순 영화를 불러오는 중입니다.';
   const url=new URL(`${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`);
   url.searchParams.set('mode',isSearch?'search':'discover');
   if(isSearch) url.searchParams.set('query',q);
@@ -452,30 +461,43 @@ async function load(){
     if(!r.ok||data.success===false)throw new Error(data.error||`API 오류 ${r.status}`);
     movies=data.results||[];
     render();
-    $("#status").textContent=isSearch?`${movies.length}편의 검색 결과입니다.`:`추천 영화 ${movies.length}편을 불러왔습니다.`;
+    $("#status").textContent=isSearch?`${movies.length}편의 검색 결과입니다.`:`추천순 영화 ${movies.length}편을 불러왔습니다.`;
   }catch(e){
     movies=[];render();$("#status").textContent='API 연결 실패';
     $("#error").innerHTML=`<div class="error">API 연결 실패: ${esc(e.message)}<br><span class="hint">Supabase hyper-processor와 TMDB 인증 설정을 확인하세요.</span></div>`;
   }
 }
 
+function setActiveMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('#modeTabs .mode-tab').forEach(button=>{
+    const active=button.dataset.mode===mode;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-pressed',String(active));
+  });
+}
+
+$("#modeTabs").addEventListener('click',event=>{
+  const button=event.target.closest('button[data-mode]');
+  if(!button) return;
+  const mode=button.dataset.mode;
+  setActiveMode(mode);
+  if(mode==='search'){
+    $("#status").textContent='검색할 영화 제목을 입력한 뒤 검색 버튼을 누르세요.';
+    $("#query").focus();
+    return;
+  }
+  $("#query").value='';
+  load();
+});
+
 $("#searchBtn").addEventListener('click',()=>{
-  if($("#query").value.trim() && $("#mode").value==='discover') $("#mode").value='search';
+  setActiveMode('search');
   load();
 });
 $("#query").addEventListener('keydown',e=>{
   if(e.key==='Enter'){
-    $("#mode").value='search';
-    load();
-  }
-});
-$("#mode").addEventListener('change',()=>{
-  const mode=$("#mode").value;
-  if(mode==='search'){
-    $("#status").textContent='검색할 영화 제목을 입력하세요.';
-    $("#query").focus();
-  }else{
-    $("#query").value='';
+    setActiveMode('search');
     load();
   }
 });
