@@ -8,8 +8,36 @@
 :root{--bg:#090b0f;--panel:#141820;--panel2:#1b202a;--line:#29303b;--text:#f5f6f8;--muted:#9ba3b2;--accent:#e8b85d;--danger:#ff8f8f}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}
 header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#151a24,#090b0f)}
-.wrap{max-width:1500px;margin:auto;padding:0 22px 70px}.brand{font-size:38px;font-weight:950;letter-spacing:-.04em}.sub{margin-top:8px;color:var(--muted);font-size:15px}
-.toolbar{display:block;margin:28px 0 22px}.mode-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.mode-tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:10px 15px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:.15s}.mode-tab:hover{border-color:#596273;color:var(--text)}.mode-tab.active{background:var(--accent);border-color:var(--accent);color:#17130b}.search-row{display:flex;gap:10px}.search-row input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.search-row button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}.rank-line{display:flex;align-items:center;gap:8px;margin-bottom:7px;color:var(--muted);font-size:11px}.rank-line b{color:var(--accent);font-size:13px}.rank-line span{border:1px solid var(--line);border-radius:999px;padding:3px 7px}
+.wrap{max-width:1500px;margin:auto;padding:0 22px 70px}.brand{display:inline-block;padding:0;border:0;background:none;color:var(--text);font:inherit;font-size:38px;font-weight:950;letter-spacing:-.04em;cursor:pointer;user-select:none}.brand:hover{color:var(--accent)}.brand:focus-visible{outline:2px solid var(--accent);outline-offset:5px;border-radius:4px}.sub{margin-top:8px;color:var(--muted);font-size:15px}
+.toolbar{display:block;margin:28px 0 22px}.mode-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.ott-filter-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:#10141b}
+.ott-filter-label{color:var(--muted);font-size:12px;font-weight:800;white-space:nowrap}
+.ott-filter-select{min-width:190px;max-width:100%;background:var(--panel2);border:1px solid #3a4351;border-radius:9px;color:var(--text);padding:9px 11px;font:inherit;font-size:13px}
+.ott-filter-count{color:var(--muted);font-size:11px;margin-left:auto}
+.game-modal{display:none;position:fixed;inset:0;z-index:40;padding:22px;background:#030507ed;overflow:auto;align-items:center;justify-content:center}
+.game-modal.show{display:flex}
+.game-dialog{position:relative;width:min(760px,100%);max-height:calc(100vh - 44px);overflow:auto;background:linear-gradient(145deg,#171d27,#0d1016 70%);border:1px solid #5b4a2c;border-radius:20px;padding:30px;box-shadow:0 28px 100px #000b}
+.game-close{position:absolute;right:14px;top:14px;width:38px;height:38px;border:1px solid #ffffff2b;border-radius:50%;background:#090b0fcc;color:#fff;font-size:23px;cursor:pointer}
+.game-kicker{color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
+.game-title{margin:8px 46px 5px 0;font-size:clamp(25px,5vw,35px);font-weight:950;letter-spacing:-.04em}
+.game-subtitle{margin:0 0 22px;color:var(--muted);font-size:13px;line-height:1.6}
+.game-intro-card{border:1px solid var(--line);background:#111720;border-radius:14px;padding:20px;margin:16px 0}
+.game-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:16px 0 20px}
+.game-rule{padding:12px 9px;text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:11px}
+.game-rule strong{display:block;color:var(--accent);font-size:18px;margin-bottom:4px}.game-rule span{font-size:11px;color:var(--muted)}
+.game-primary,.game-secondary{border-radius:10px;padding:11px 16px;font:inherit;font-size:13px;font-weight:850;cursor:pointer}
+.game-primary{background:var(--accent);border:1px solid var(--accent);color:#17130b}.game-secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}
+.game-primary:disabled,.game-secondary:disabled{opacity:.45;cursor:not-allowed}
+.game-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;color:var(--muted);font-size:12px}
+.game-progress{height:5px;background:#272d38;border-radius:999px;overflow:hidden;margin-bottom:17px}.game-progress-fill{height:100%;width:100%;background:var(--accent);transition:width .15s linear}
+.game-poster-wrap{position:relative;width:min(310px,100%);aspect-ratio:2/3;margin:0 auto 17px;border-radius:13px;overflow:hidden;background:#080a0e;border:1px solid #ffffff1b;box-shadow:0 15px 45px #0008}
+.game-poster-wrap img{display:block;width:100%;height:100%;object-fit:cover;filter:blur(14px);transform:scale(1.06);transition:filter .35s ease}
+.game-poster-shade{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#0002,#0008);color:#fff;text-align:center;padding:20px;font-size:12px;font-weight:800;text-shadow:0 2px 8px #000}
+.game-hud{display:flex;align-items:center;justify-content:center;gap:16px;margin:6px 0 14px;color:var(--muted);font-size:12px}.game-hud strong{color:var(--accent);font-size:15px}
+.game-answer-row{display:flex;gap:8px}.game-answer-row input{flex:1;min-width:0;background:#0b0f15;border:1px solid #394353;border-radius:10px;padding:12px;color:var(--text);font:inherit;font-size:14px}.game-answer-row input:focus{outline:2px solid #e8b85d66;border-color:var(--accent)}
+.game-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.game-feedback{min-height:24px;margin:12px 0 0;color:var(--muted);font-size:13px;line-height:1.55}.game-feedback.good{color:#a5e0b6}.game-feedback.bad{color:#ffaaaa}
+.game-result-score{margin:18px 0 8px;text-align:center;color:var(--accent);font-size:clamp(38px,8vw,58px);font-weight:950;letter-spacing:-.05em}.game-result-caption{text-align:center;color:var(--muted);font-size:12px}.game-result-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:22px}.game-setup-note{margin-top:13px;color:var(--muted);font-size:11px;line-height:1.6}
+@media(max-width:700px){.ott-filter-row{align-items:stretch}.ott-filter-select{flex:1;min-width:0}.ott-filter-count{width:100%;margin-left:0}.game-modal{padding:10px}.game-dialog{padding:23px 17px;max-height:calc(100vh - 20px)}.game-rules{gap:6px}.game-rule{padding:10px 5px}.game-rule strong{font-size:16px}.game-answer-row{flex-wrap:wrap}.game-answer-row input{flex-basis:100%}.game-answer-row button{flex:1}}.mode-tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:10px 15px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:.15s}.mode-tab:hover{border-color:#596273;color:var(--text)}.mode-tab.active{background:var(--accent);border-color:var(--accent);color:#17130b}.search-row{display:flex;gap:10px}.search-row input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px 15px;font:inherit}.search-row button{border:0;background:var(--accent);color:#17130b;font-weight:800;border-radius:12px;padding:0 20px;cursor:pointer}.rank-line{display:flex;align-items:center;gap:8px;margin-bottom:7px;color:var(--muted);font-size:11px}.rank-line b{color:var(--accent);font-size:13px}.rank-line span{border:1px solid var(--line);border-radius:999px;padding:3px 7px}
 .status{margin:0 0 12px;color:var(--muted);font-size:14px}.list-actions{display:flex;justify-content:flex-end;margin:0 0 16px}.list-action-btn{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:9px;padding:8px 11px;font:inherit;font-size:12px;cursor:pointer}.list-action-btn:hover{border-color:var(--danger);color:var(--danger)}.error{background:#351719;border:1px solid #703137;color:#ffb5b5;padding:14px;border-radius:12px;margin-bottom:20px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer;transition:.18s}.card:hover{transform:translateY(-4px);border-color:#596273}.poster{aspect-ratio:2/3;background:#1a1e26;position:relative;overflow:hidden}.favorite-card-btn{position:absolute;right:9px;top:9px;z-index:1;width:36px;height:36px;border:1px solid #ffffff40;border-radius:50%;background:#090b0fcc;color:#fff;font-size:21px;line-height:1;cursor:pointer;backdrop-filter:blur(6px)}.favorite-card-btn.active{color:#ff8f9c;border-color:#ff8f9c;background:#28141acc}.favorite-card-btn:hover{transform:scale(1.07)}.poster img{width:100%;height:100%;object-fit:cover;display:block}.poster .fallback{height:100%;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;font-size:25px;font-weight:900}.body{padding:13px}.title{font-size:16px;font-weight:800;margin-bottom:6px}.meta{font-size:12px;color:var(--muted);min-height:17px}.ratings{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid #3a4351;background:var(--panel2);border-radius:999px;padding:5px 8px;font-size:11px}.pill b{color:var(--accent);font-size:12px}.ott{margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5}.ott b{color:#dfe3ea}.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;padding:30px;overflow:auto}.modal.show{display:flex;align-items:center;justify-content:center}.dialog{width:min(920px,100%);background:var(--panel);border:1px solid #3b4350;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px #0008;position:relative}.close{position:absolute;right:14px;top:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid #ffffff33;background:#090b0fcc;color:#fff;font-size:24px;cursor:pointer}.detail{display:grid;grid-template-columns:280px 1fr}.detail-poster{background:#11151b;min-height:420px}.detail-poster img{width:100%;height:100%;object-fit:cover;display:block}.detail-info{padding:30px}.detail-info h2{font-size:32px;margin:0 45px 8px 0}.detail-meta{color:var(--muted);font-size:13px;margin-bottom:16px}.detail-actions{display:flex;gap:8px;margin:0 0 17px}.favorite-detail-btn,.watched-detail-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 13px;font:inherit;font-size:13px;font-weight:750;cursor:pointer}.favorite-detail-btn.active{border-color:#ff8f9c;color:#ff9da8;background:#28141a}.watched-detail-btn.active{border-color:#7ebc91;color:#a5e0b6;background:#14251b}.detail-action-note{margin:-7px 0 17px;color:var(--muted);font-size:11px}.detail-ratings{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.score{background:var(--panel2);border:1px solid var(--line);padding:9px 11px;border-radius:10px;font-size:12px}.score strong{color:var(--accent);font-size:17px}.review{border-left:3px solid var(--accent);padding:4px 0 4px 13px;color:#dce0e7;line-height:1.7;margin:18px 0}.section{margin-top:22px}.section h3{font-size:15px;margin:0 0 10px}.provider-group{margin-bottom:12px}.provider-label{color:var(--muted);font-size:12px;margin-bottom:7px}.provider-list{display:flex;flex-wrap:wrap;gap:8px}.provider{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:7px 9px;font-size:12px;color:var(--text);text-decoration:none;cursor:pointer;transition:border-color .15s,transform .15s,background .15s}.provider:hover{border-color:var(--accent);background:#252b36;transform:translateY(-1px)}.provider:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.provider img{width:22px;height:22px;border-radius:5px;object-fit:cover}.provider-arrow{margin-left:2px;color:var(--accent);font-weight:800}.none{color:var(--muted);font-size:13px}.hint{color:var(--muted);font-size:12px}
@@ -42,7 +70,7 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
 </style>
 </head>
 <body>
-<header><div class="wrap" style="padding-bottom:0"><div class="brand">CINE PICK</div><div class="sub">한국 OTT 영화 탐색</div></div></header>
+<header><div class="wrap" style="padding-bottom:0"><button type="button" class="brand" id="brandLogo" aria-label="CINE PICK 로고 — 비밀 게임 열기">CINE PICK</button><div class="sub">한국 OTT 영화 탐색</div></div></header>
 <main class="wrap">
   <div class="toolbar">
     <nav class="mode-tabs" id="modeTabs" aria-label="영화 목록">
@@ -54,6 +82,13 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
       <button type="button" class="mode-tab" data-mode="history" aria-pressed="false">시청 기록</button>
       <button type="button" class="mode-tab" data-mode="favorites" aria-pressed="false">찜 목록</button>
     </nav>
+    <div class="ott-filter-row" id="ottFilterRow">
+      <label class="ott-filter-label" for="ottFilter">OTT별 필터</label>
+      <select id="ottFilter" class="ott-filter-select" aria-label="OTT 서비스별 영화 필터">
+        <option value="">전체 서비스</option>
+      </select>
+      <span id="ottFilterCount" class="ott-filter-count">영화 목록을 불러오는 중입니다.</span>
+    </div>
     <div class="search-row">
       <input id="query" placeholder="영화 제목을 검색하세요" autocomplete="off">
       <button id="searchBtn" type="button">검색</button>
@@ -105,6 +140,59 @@ header{padding:28px 22px 24px;border-bottom:1px solid var(--line);background:lin
   </div>
 </div>
 
+
+<div id="gameModal" class="game-modal" aria-hidden="true">
+  <section class="game-dialog" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
+    <button type="button" class="game-close" id="gameCloseBtn" aria-label="게임 닫기">×</button>
+    <div class="game-kicker">CINE PICK · SECRET ROOM</div>
+    <h2 class="game-title" id="gameTitle">포스터의 정체를 맞혀라</h2>
+    <p class="game-subtitle">흐릿한 영화 포스터를 보고 제목을 맞혀보세요. 5라운드가 끝나면 점수가 기록됩니다.</p>
+    <div id="gameIntro">
+      <div class="game-intro-card">
+        <strong style="font-size:16px">영화 포스터 퀴즈</strong>
+        <p style="color:var(--muted);font-size:13px;line-height:1.7;margin:8px 0 0">시간이 흐를수록 포스터가 선명해집니다. 힌트를 사용하거나 오답을 입력하면 획득 점수가 줄어듭니다.</p>
+      </div>
+      <div class="game-rules">
+        <div class="game-rule"><strong>5</strong><span>라운드</span></div>
+        <div class="game-rule"><strong>15초</strong><span>문제당 제한 시간</span></div>
+        <div class="game-rule"><strong>500점</strong><span>최대 획득 점수</span></div>
+      </div>
+      <button type="button" class="game-primary" id="gameStartBtn">게임 시작</button>
+      <div class="game-setup-note" id="gameSetupNote">영화 목록을 준비한 뒤 게임을 시작합니다.</div>
+    </div>
+    <div id="gamePlay" hidden>
+      <div class="game-topline"><span id="gameRoundLabel">ROUND 1 / 5</span><span>현재 점수 <strong id="gameLiveScore">0</strong></span></div>
+      <div class="game-progress"><div id="gameProgressFill" class="game-progress-fill"></div></div>
+      <div class="game-poster-wrap"><img id="gamePoster" alt="흐릿하게 가려진 영화 포스터"><div class="game-poster-shade" id="gamePosterShade">포스터를 살펴보고 영화 제목을 입력하세요</div></div>
+      <div class="game-hud"><span>남은 시간 <strong id="gameTimer">15</strong>초</span><span>힌트 사용 <strong id="gameHintState">0 / 1</strong></span></div>
+      <form id="gameAnswerForm">
+        <div class="game-answer-row">
+          <input id="gameAnswerInput" type="text" maxlength="100" autocomplete="off" placeholder="영화 제목을 입력하세요" aria-label="정답 영화 제목" required>
+          <button type="submit" class="game-primary" id="gameSubmitBtn">정답 확인</button>
+        </div>
+      </form>
+      <div class="game-tools">
+        <button type="button" class="game-secondary" id="gameHintBtn">힌트 보기 (−20점)</button>
+        <button type="button" class="game-secondary" id="gameNextBtn" hidden>다음 문제</button>
+      </div>
+      <div id="gameFeedback" class="game-feedback" aria-live="polite"></div>
+    </div>
+    <div id="gameResult" hidden>
+      <div class="game-intro-card" style="text-align:center">
+        <div class="game-kicker">GAME COMPLETE</div>
+        <div class="game-result-score" id="gameFinalScore">0점</div>
+        <div class="game-result-caption" id="gameCorrectCount">5문제 중 0문제 정답</div>
+        <div class="game-setup-note" id="gameBestScore">개인 최고 점수를 확인하고 있습니다.</div>
+        <div class="game-setup-note" id="gameSaveNote"></div>
+      </div>
+      <div class="game-result-actions">
+        <button type="button" class="game-primary" id="gameReplayBtn">다시 도전</button>
+        <button type="button" class="game-secondary" id="gameExitBtn">탐색으로 돌아가기</button>
+      </div>
+    </div>
+  </section>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL="https://nxrohsvtcckarurkpull.supabase.co";
@@ -121,6 +209,22 @@ let supabaseClient=null;
 let currentUser=null;
 let authError='';
 let authPromise=null;
+let activeOttFilter='';
+let displayedMovies=[];
+let brandClickCount=0;
+let brandClickResetTimer=null;
+let gamePool=[];
+let gameQuestions=[];
+let gameRoundIndex=0;
+let gameScore=0;
+let gameCorrectCount=0;
+let gameRoundStartedAt=0;
+let gameHintPenalty=0;
+let gameWrongPenalty=0;
+let gameTimerInterval=null;
+let gameRoundLocked=false;
+const GAME_ROUNDS=5;
+const GAME_SECONDS=15;
 
 function getSupabaseClient(){
   if(!window.supabase?.createClient) throw new Error('Supabase 모듈을 불러오지 못했습니다. 페이지를 새로고침해 주세요.');
@@ -350,6 +454,46 @@ function ottSummary(m){
   const names=[...(m.providers?.subscription||[]),...(m.providers?.rent||[]),...(m.providers?.buy||[])].map(x=>x.name);
   return names.length?[...new Set(names)].slice(0,4).join(' · '):'한국 OTT 정보 없음';
 }
+function canonicalProviderName(value){
+  const raw=String(value||'').trim();
+  const key=raw.toLowerCase().replace(/[\s+._-]/g,'');
+  if(key.includes('netflix')||key.includes('넷플릭스'))return '넷플릭스';
+  if(key.includes('disney')||key.includes('디즈니'))return '디즈니+';
+  if(key.includes('tving')||key.includes('티빙'))return '티빙';
+  if(key.includes('wavve')||key.includes('wave')||key.includes('웨이브'))return '웨이브';
+  if(key.includes('watcha')||key.includes('왓챠'))return '왓챠';
+  if(key.includes('coupangplay')||key.includes('쿠팡플레이'))return '쿠팡플레이';
+  if(key.includes('apple')||key.includes('애플'))return 'Apple TV+';
+  return raw;
+}
+function movieProviders(movie){
+  return [...(movie.providers?.subscription||[]),...(movie.providers?.rent||[]),...(movie.providers?.buy||[])]
+    .map(provider=>canonicalProviderName(provider?.name)).filter(Boolean);
+}
+function movieHasOtt(movie, providerName){
+  return movieProviders(movie).some(name=>name===providerName);
+}
+function updateOttFilterOptions(){
+  const select=$('#ottFilter');
+  if(!select)return;
+  const available=[...new Set(movies.flatMap(movie=>movieProviders(movie)))];
+  const preferred=['넷플릭스','디즈니+','티빙','웨이브','왓챠','쿠팡플레이','Apple TV+'];
+  available.sort((a,b)=>{
+    const ai=preferred.indexOf(a),bi=preferred.indexOf(b);
+    if(ai!==-1||bi!==-1)return (ai===-1?999:ai)-(bi===-1?999:bi);
+    return a.localeCompare(b,'ko');
+  });
+  if(activeOttFilter&&!available.includes(activeOttFilter))activeOttFilter='';
+  select.innerHTML='<option value="">전체 서비스</option>'+available.map(name=>{
+    const count=movies.filter(movie=>movieHasOtt(movie,name)).length;
+    return `<option value="${esc(name)}">${esc(name)} (${count})</option>`;
+  }).join('');
+  select.value=activeOttFilter;
+  select.disabled=available.length===0;
+  $('#ottFilterCount').textContent=activeOttFilter
+    ?`${movies.filter(movie=>movieHasOtt(movie,activeOttFilter)).length}편 표시 · 현재 목록 기준`
+    :`전체 ${movies.length}편 · ${available.length?`${available.length}개 서비스`:'OTT 제공 정보 없음'}`;
+}
 
 // 개인 시청 기록과 찜 목록은 Supabase에 익명 사용자별로 저장합니다.
 const FAVORITES_TABLE='cine_favorites';
@@ -546,8 +690,16 @@ function formatPersonalDate(value){
 }
 function render(){
   const grid=$('#grid');
-  if(!movies.length){grid.innerHTML=`<div class="empty">${esc(emptyMessage)}</div>`;return;}
-  grid.innerHTML=movies.map((m,i)=>{
+  updateOttFilterOptions();
+  displayedMovies=activeOttFilter?movies.filter(movie=>movieHasOtt(movie,activeOttFilter)):movies.slice();
+  if(!displayedMovies.length){
+    const message=movies.length&&activeOttFilter
+      ?`${activeOttFilter}에서 이용할 수 있는 영화가 현재 목록에 없습니다.`
+      :emptyMessage;
+    grid.innerHTML=`<div class="empty">${esc(message)}</div>`;
+    return;
+  }
+  grid.innerHTML=displayedMovies.map((m,i)=>{
     const saved=isFavorite(m.id);
     const personalDate=currentMode==='history'&&m.__viewedAt
       ?`<div class="ott">시청 완료 ${esc(formatPersonalDate(m.__viewedAt))}</div>`
@@ -572,10 +724,10 @@ function render(){
       const index=Number(card.dataset.index);
       if(event.target.closest('.favorite-card-btn')){
         event.stopPropagation();
-        toggleFavorite(movies[index]);
+        toggleFavorite(displayedMovies[index]);
         return;
       }
-      openDetail(movies[index]);
+      openDetail(displayedMovies[index]);
     });
   });
 }
@@ -710,6 +862,211 @@ function setActiveMode(mode){
   });
 }
 
+function shuffleArray(items){
+  const copy=items.slice();
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy;
+}
+function normalizeAnswer(value){
+  return String(value||'').toLocaleLowerCase('ko-KR').normalize('NFKC').replace(/[\s\p{P}\p{S}]+/gu,'');
+}
+function setGameSection(section){
+  $('#gameIntro').hidden=section!=='intro';
+  $('#gamePlay').hidden=section!=='play';
+  $('#gameResult').hidden=section!=='result';
+}
+function openGameModal(){
+  $('#gameModal').classList.add('show');
+  $('#gameModal').setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  setGameSection('intro');
+  $('#gameSetupNote').textContent='영화 목록을 준비한 뒤 게임을 시작합니다.';
+  $('#gameStartBtn').disabled=false;
+}
+function closeGameModal(){
+  stopGameTimer();
+  $('#gameModal').classList.remove('show');
+  $('#gameModal').setAttribute('aria-hidden','true');
+  document.body.style.overflow=$('#modal').classList.contains('show')?'hidden':'';
+}
+function stopGameTimer(){
+  if(gameTimerInterval){clearInterval(gameTimerInterval);gameTimerInterval=null;}
+}
+async function fetchGamePool(){
+  const candidates=[...movies];
+  try{
+    const url=new URL(`${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`);
+    url.searchParams.set('mode','discover');
+    const response=await fetch(url,{headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${SUPABASE_PUBLISHABLE_KEY}`,Accept:'application/json'}});
+    const data=await response.json().catch(()=>({}));
+    if(response.ok&&data.success!==false&&Array.isArray(data.results))candidates.push(...data.results);
+  }catch(error){
+    // 현재 화면에 이미 불러온 영화만으로도 게임을 시작할 수 있도록 둡니다.
+  }
+  const unique=new Map();
+  candidates.forEach(movie=>{
+    const id=Number(movie?.id);
+    if(Number.isSafeInteger(id)&&id>0&&movie?.poster&&movie?.title&&!unique.has(id))unique.set(id,movie);
+  });
+  return [...unique.values()];
+}
+async function preparePosterGame(){
+  $('#gameStartBtn').disabled=true;
+  $('#gameSetupNote').textContent='영화 포스터를 불러오는 중입니다.';
+  try{
+    gamePool=await fetchGamePool();
+    if(gamePool.length<GAME_ROUNDS){
+      throw new Error('퀴즈를 만들 영화가 충분하지 않습니다. 영화 목록을 불러온 뒤 다시 시도해 주세요.');
+    }
+    gameQuestions=shuffleArray(gamePool).slice(0,GAME_ROUNDS);
+    gameRoundIndex=0;
+    gameScore=0;
+    gameCorrectCount=0;
+    setGameSection('play');
+    startGameRound();
+  }catch(error){
+    $('#gameSetupNote').textContent=error.message;
+    $('#gameStartBtn').disabled=false;
+  }
+}
+function startGameRound(){
+  stopGameTimer();
+  const movie=gameQuestions[gameRoundIndex];
+  if(!movie){finishPosterGame();return;}
+  gameRoundStartedAt=Date.now();
+  gameHintPenalty=0;
+  gameWrongPenalty=0;
+  gameRoundLocked=false;
+  $('#gameRoundLabel').textContent=`ROUND ${gameRoundIndex+1} / ${GAME_ROUNDS}`;
+  $('#gameLiveScore').textContent=gameScore;
+  $('#gamePoster').src=movie.poster;
+  $('#gamePoster').style.filter='blur(14px)';
+  $('#gamePosterShade').textContent='포스터를 살펴보고 영화 제목을 입력하세요';
+  $('#gameTimer').textContent=GAME_SECONDS;
+  $('#gameProgressFill').style.width='100%';
+  $('#gameHintState').textContent='0 / 1';
+  $('#gameHintBtn').disabled=false;
+  $('#gameHintBtn').hidden=false;
+  $('#gameNextBtn').hidden=true;
+  $('#gameSubmitBtn').disabled=false;
+  $('#gameAnswerInput').disabled=false;
+  $('#gameAnswerInput').value='';
+  $('#gameFeedback').textContent='';
+  $('#gameFeedback').className='game-feedback';
+  $('#gameAnswerInput').focus();
+  gameTimerInterval=setInterval(updateGameTimer,100);
+}
+function updateGameTimer(){
+  if(gameRoundLocked)return;
+  const elapsed=(Date.now()-gameRoundStartedAt)/1000;
+  const remaining=Math.max(0,GAME_SECONDS-elapsed);
+  const ratio=remaining/GAME_SECONDS;
+  const blur=Math.max(0,14-(elapsed/GAME_SECONDS)*14);
+  $('#gameTimer').textContent=Math.ceil(remaining);
+  $('#gameProgressFill').style.width=`${ratio*100}%`;
+  $('#gamePoster').style.filter=`blur(${blur.toFixed(1)}px)`;
+  if(remaining<=0)endGameRound(false,'시간 초과');
+}
+function showGameHint(){
+  if(gameRoundLocked||gameHintPenalty>0)return;
+  gameHintPenalty=20;
+  const movie=gameQuestions[gameRoundIndex];
+  const details=[movie.year,movie.genre].filter(Boolean).join(' · ')||'추가 정보가 없습니다.';
+  $('#gamePosterShade').textContent=`힌트: ${details}`;
+  $('#gameHintState').textContent='1 / 1';
+  $('#gameHintBtn').disabled=true;
+  $('#gameFeedback').textContent='힌트를 사용했습니다. 정답 시 20점이 차감됩니다.';
+}
+function submitGameAnswer(event){
+  event.preventDefault();
+  if(gameRoundLocked)return;
+  const input=$('#gameAnswerInput');
+  const guess=normalizeAnswer(input.value);
+  if(!guess){input.focus();return;}
+  const movie=gameQuestions[gameRoundIndex];
+  const accepted=[movie.title,movie.originalTitle,movie.original_title,movie.name].filter(Boolean).map(normalizeAnswer);
+  if(accepted.includes(guess)){
+    const elapsed=Math.min(GAME_SECONDS,(Date.now()-gameRoundStartedAt)/1000);
+    const earned=Math.max(10,Math.round(100-elapsed*4-gameHintPenalty-gameWrongPenalty));
+    gameScore+=earned;
+    gameCorrectCount++;
+    $('#gameLiveScore').textContent=gameScore;
+    endGameRound(true,`정답입니다! ${movie.title} · +${earned}점`);
+  }else{
+    gameWrongPenalty=Math.min(50,gameWrongPenalty+10);
+    $('#gameFeedback').textContent='정답이 아닙니다. 다시 생각해 보세요. (오답 1회당 −10점)';
+    $('#gameFeedback').className='game-feedback bad';
+    input.select();
+  }
+}
+function endGameRound(correct,message){
+  if(gameRoundLocked)return;
+  gameRoundLocked=true;
+  stopGameTimer();
+  const movie=gameQuestions[gameRoundIndex];
+  $('#gamePoster').style.filter='blur(0px)';
+  $('#gamePosterShade').textContent=movie.title;
+  $('#gameAnswerInput').disabled=true;
+  $('#gameSubmitBtn').disabled=true;
+  $('#gameHintBtn').disabled=true;
+  $('#gameNextBtn').hidden=false;
+  $('#gameNextBtn').textContent=gameRoundIndex===GAME_ROUNDS-1?'결과 보기':'다음 문제';
+  $('#gameFeedback').textContent=message||`정답: ${movie.title}`;
+  $('#gameFeedback').className=correct?'game-feedback good':'game-feedback bad';
+}
+function nextGameRound(){
+  gameRoundIndex++;
+  if(gameRoundIndex>=GAME_ROUNDS){finishPosterGame();return;}
+  startGameRound();
+}
+async function finishPosterGame(){
+  stopGameTimer();
+  setGameSection('result');
+  $('#gameFinalScore').textContent=`${gameScore}점`;
+  $('#gameCorrectCount').textContent=`${GAME_ROUNDS}문제 중 ${gameCorrectCount}문제 정답`;
+  $('#gameBestScore').textContent='개인 최고 점수를 확인하고 있습니다.';
+  $('#gameSaveNote').textContent='';
+  try{
+    await ensureCommentAuth();
+    const {error:insertError}=await supabaseClient.from('cine_game_scores').insert({
+      user_id:currentUser.id,
+      score:gameScore,
+      correct_count:gameCorrectCount,
+      total_questions:GAME_ROUNDS
+    });
+    if(insertError)throw insertError;
+    const {data,error:readError}=await supabaseClient.from('cine_game_scores')
+      .select('score').eq('user_id',currentUser.id)
+      .order('score',{ascending:false}).limit(1).maybeSingle();
+    if(readError)throw readError;
+    const best=Number(data?.score||gameScore);
+    $('#gameBestScore').textContent=`나의 최고 점수 ${best}점`;
+    try{localStorage.setItem('cine_pick_game_best',String(best));}catch{}
+    $('#gameSaveNote').textContent='익명 계정에 점수가 저장되었습니다.';
+  }catch(error){
+    let best=gameScore;
+    try{
+      best=Math.max(best,Number(localStorage.getItem('cine_pick_game_best')||0));
+      localStorage.setItem('cine_pick_game_best',String(best));
+    }catch{}
+    $('#gameBestScore').textContent=`이 브라우저 최고 점수 ${best}점`;
+    $('#gameSaveNote').textContent=`서버 점수 저장에 실패했습니다. SQL 설정을 확인하세요. (${error.message})`;
+  }
+}
+function handleBrandClick(){
+  brandClickCount++;
+  if(brandClickResetTimer)clearTimeout(brandClickResetTimer);
+  brandClickResetTimer=setTimeout(()=>{brandClickCount=0;},2600);
+  if(brandClickCount>=5){
+    brandClickCount=0;
+    clearTimeout(brandClickResetTimer);
+    openGameModal();
+  }
+}
+
 $("#modeTabs").addEventListener('click',event=>{
   const button=event.target.closest('button[data-mode]');
   if(!button) return;
@@ -735,6 +1092,24 @@ $("#query").addEventListener('keydown',e=>{
     load();
   }
 });
+$('#ottFilter').addEventListener('change',event=>{
+  activeOttFilter=event.target.value;
+  render();
+});
+$('#brandLogo').addEventListener('click',handleBrandClick);
+$('#gameStartBtn').addEventListener('click',preparePosterGame);
+$('#gameCloseBtn').addEventListener('click',closeGameModal);
+$('#gameExitBtn').addEventListener('click',closeGameModal);
+$('#gameReplayBtn').addEventListener('click',()=>{
+  gameQuestions=shuffleArray(gamePool).slice(0,GAME_ROUNDS);
+  gameRoundIndex=0;gameScore=0;gameCorrectCount=0;
+  setGameSection('play');startGameRound();
+});
+$('#gameAnswerForm').addEventListener('submit',submitGameAnswer);
+$('#gameHintBtn').addEventListener('click',showGameHint);
+$('#gameNextBtn').addEventListener('click',nextGameRound);
+$('#gameModal').addEventListener('click',event=>{if(event.target.id==='gameModal')closeGameModal();});
+
 $("#favoriteDetailBtn").addEventListener('click',()=>{
   if(activeMovie)toggleFavorite(activeMovie);
 });
@@ -754,7 +1129,7 @@ $("#clearHistoryBtn").addEventListener('click',async()=>{
 $("#commentForm").addEventListener('submit',submitComment);
 $("#commentList").addEventListener('click',handleCommentAction);
 $("#cancelCommentEdit").addEventListener('click',resetCommentEditor);
-$("#closeBtn").addEventListener('click',closeDetail);$("#modal").addEventListener('click',e=>{if(e.target.id==='modal')closeDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail()});
+$("#closeBtn").addEventListener('click',closeDetail);$("#modal").addEventListener('click',e=>{if(e.target.id==='modal')closeDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#gameModal').classList.contains('show'))closeGameModal();else closeDetail();}});
 load();
 </script>
 </body>
